@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>블럭깨기 - Breakout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Consolas', monospace;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #00c8ff;
+            margin-bottom: 20px;
+            font-size: 32px;
+            text-shadow: 0 0 10px #00c8ff;
+        }
+
+        canvas {
+            display: block;
+            background: #000;
+            border: 3px solid #00c8ff;
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            margin: 0 auto 20px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 200, 255, 0.1);
+            border: 1px solid #00c8ff;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .info-item span {
+            color: #00c8ff;
+            font-weight: bold;
+        }
+
+        .controls {
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .controls p {
+            margin: 5px 0;
+        }
+
+        .key {
+            display: inline-block;
+            background: #00c8ff;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0 3px;
+        }
+
+        .status {
+            margin-top: 15px;
+            color: #ffff00;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            canvas {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .controls {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 블럭깨기 Breakout</h1>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div class="info">
+            <div class="info-item">점수: <span id="score">00000</span></div>
+            <div class="info-item">생명: <span id="lives">♥ ♥ ♥</span></div>
+        </div>
+
+        <div class="controls">
+            <p><span class="key">←</span> / <span class="key">A</span> - 왼쪽 이동 | <span class="key">→</span> / <span class="key">D</span> - 오른쪽 이동</p>
+            <p><span class="key">SPACE</span> - 시작 / 다시 시작 | <span class="key">ESC</span> - 종료</p>
+        </div>
+
+        <div class="status" id="status">SPACE 키를 눌러 시작하세요</div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 상수
+        const WIDTH = canvas.width;
+        const HEIGHT = canvas.height;
+        const FPS = 60;
+
+        // 색상
+        const BLACK = '#000000';
+        const WHITE = '#FFFFFF';
+        const CYAN = '#00C8FF';
+        const ORANGE = '#FF8C00';
+        const GRAY = '#3C3C3C';
+        const RED = '#DC3232';
+        const GREEN = '#32C850';
+        const YELLOW = '#F0DC1E';
+
+        // 블록 설정
+        const BLOCK_COLS = 10;
+        const BLOCK_ROWS = 5;
+        const BLOCK_WIDTH = 68;
+        const BLOCK_HEIGHT = 22;
+        const BLOCK_PADDING = 4;
+        const BLOCK_OFFSET_X = 26;
+        const BLOCK_OFFSET_Y = 60;
+        const BLOCK_COLORS = [RED, ORANGE, YELLOW, GREEN, CYAN];
+
+        // 패들 설정
+        const PADDLE_WIDTH = 110;
+        const PADDLE_HEIGHT = 14;
+        const PADDLE_SPEED = 7;
+        const PADDLE_Y = HEIGHT - 50;
+
+        // 공 설정
+        const BALL_RADIUS = 9;
+        const BALL_SPEED = 5;
+
+        class Paddle {
+            constructor() {
+                this.x = (WIDTH - PADDLE_WIDTH) / 2;
+                this.y = PADDLE_Y;
+                this.width = PADDLE_WIDTH;
+                this.height = PADDLE_HEIGHT;
+            }
+
+            update(keys) {
+                if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
+                    this.x -= PADDLE_SPEED;
+                }
+                if (keys['ArrowRight'] || keys['d'] || keys['D']) {
+                    this.x += PADDLE_SPEED;
+                }
+                this.x = Math.max(0, Math.min(this.x, WIDTH - this.width));
+            }
+
+            draw() {
+                ctx.fillStyle = WHITE;
+                ctx.beginPath();
+                ctx.roundRect(this.x, this.y, this.width, this.height, 7);
+                ctx.fill();
+            }
+
+            getRect() {
+                return {
+                    x: this.x,
+                    y: this.y,
+                    width: this.width,
+                    height: this.height,
+                    left: this.x,
+                    right: this.x + this.width,
+                    top: this.y,
+                    bottom: this.y + this.height
+                };
+            }
+        }
+
+        class Ball {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = WIDTH / 2;
+                this.y = PADDLE_Y - BALL_RADIUS - 2;
+                const angleOffset = (Math.random() > 0.5 ? 1 : -1) * (0.3 + Math.random() * 0.6);
+                this.vx = BALL_SPEED * angleOffset;
+                this.vy = -BALL_SPEED;
+                this.active = false;
+            }
+
+            update(paddle) {
+                if (!this.active) {
+                    this.x = paddle.x + paddle.width / 2;
+                    this.y = PADDLE_Y - BALL_RADIUS - 2;
+                    return true;
+                }
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // 벽 충돌
+                if (this.x - BALL_RADIUS <= 0) {
+                    this.x = BALL_RADIUS;
+                    this.vx = Math.abs(this.vx);
+                }
+                if (this.x + BALL_RADIUS >= WIDTH) {
+                    this.x = WIDTH - BALL_RADIUS;
+                    this.vx = -Math.abs(this.vx);
+                }
+                if (this.y - BALL_RADIUS <= 0) {
+                    this.y = BALL_RADIUS;
+                    this.vy = Math.abs(this.vy);
+                }
+
+                // 아래쪽 통과 (게임 오버)
+                if (this.y + BALL_RADIUS >= HEIGHT) {
+                    return false;
+                }
+
+                // 패들 충돌
+                const paddleRect = paddle.getRect();
+                if (this.checkCircleRectCollision(paddleRect) && this.vy > 0) {
+                    const offset = (this.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
+                    this.vx = BALL_SPEED * offset * 1.1;
+                    this.vy = -Math.abs(this.vy);
+                    this.y = paddleRect.top - BALL_RADIUS;
+                }
+
+                return true;
+            }
+
+            checkCircleRectCollision(rect) {
+                const closestX = Math.max(rect.left, Math.min(this.x, rect.right));
+                const closestY = Math.max(rect.top, Math.min(this.y, rect.bottom));
+                const dx = this.x - closestX;
+                const dy = this.y - closestY;
+                return (dx * dx + dy * dy) < (BALL_RADIUS * BALL_RADIUS);
+            }
+
+            draw() {
+                ctx.fillStyle = CYAN;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, BALL_RADIUS, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = WHITE;
+                ctx.beginPath();
+                ctx.arc(this.x - 3, this.y - 3, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Block {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.width = BLOCK_WIDTH;
+                this.height = BLOCK_HEIGHT;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.roundRect(this.x, this.y, this.width, this.height, 4);
+                ctx.fill();
+
+                ctx.strokeStyle = BLACK;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(this.x, this.y, this.width, this.height, 4);
+                ctx.stroke();
+            }
+
+            getRect() {
+                return {
+                    x: this.x,
+                    y: this.y,
+                    width: this.width,
+                    height: this.height,
+                    left: this.x,
+                    right: this.x + this.width,
+                    top: this.y,
+                    bottom: this.y + this.height
+                };
+            }
+        }
+
+        function createBlocks() {
+            const blocks = [];
+            for (let row = 0; row < BLOCK_ROWS; row++) {
+                for (let col = 0; col < BLOCK_COLS; col++) {
+                    const x = BLOCK_OFFSET_X + col * (BLOCK_WIDTH + BLOCK_PADDING);
+                    const y = BLOCK_OFFSET_Y + row * (BLOCK_HEIGHT + BLOCK_PADDING);
+                    const color = BLOCK_COLORS[row % BLOCK_COLORS.length];
+                    blocks.push(new Block(x, y, color));
+                }
+            }
+            return blocks;
+        }
+
+        function checkBallBlockCollision(ball, blocks) {
+            for (let i = 0; i < blocks.length; i++) {
+                const block = blocks[i];
+                const rect = block.getRect();
+
+                if (ball.checkCircleRectCollision(rect)) {
+                    const bx = ball.x - (rect.left + rect.width / 2);
+                    const by = ball.y - (rect.top + rect.height / 2);
+
+                    if (Math.abs(bx) / (rect.width / 2) > Math.abs(by) / (rect.height / 2)) {
+                        ball.vx *= -1;
+                    } else {
+                        ball.vy *= -1;
+                    }
+
+                    blocks.splice(i, 1);
+                    return 10;
+                }
+            }
+            return 0;
+        }
+
+        function drawText(text, size, x, y, color = WHITE, center = false) {
+            ctx.font = `bold ${size}px Consolas`;
+            ctx.fillStyle = color;
+            ctx.textAlign = center ? 'center' : 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(text, x, y);
+        }
+
+        function drawGridLines() {
+            ctx.strokeStyle = GRAY;
+            ctx.lineWidth = 1;
+
+            for (let x = 0; x <= WIDTH; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, HEIGHT);
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= HEIGHT; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(WIDTH, y);
+                ctx.stroke();
+            }
+        }
+
+        // 메인 게임 클래스
+        class Game {
+            constructor() {
+                this.paddle = new Paddle();
+                this.ball = new Ball();
+                this.blocks = createBlocks();
+                this.score = 0;
+                this.lives = 3;
+                this.state = 'playing'; // playing, gameover, win
+                this.keys = {};
+                this.lastTime = Date.now();
+
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key] = true;
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                        this.handleSpace();
+                    }
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        window.close();
+                    }
+                });
+
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key] = false;
+                });
+            }
+
+            handleSpace() {
+                if (this.state === 'playing') {
+                    this.ball.active = true;
+                } else if (this.state === 'gameover' || this.state === 'win') {
+                    this.reset();
+                }
+            }
+
+            reset() {
+                this.paddle = new Paddle();
+                this.ball = new Ball();
+                this.blocks = createBlocks();
+                this.score = 0;
+                this.lives = 3;
+                this.state = 'playing';
+            }
+
+            update() {
+                if (this.state !== 'playing') return;
+
+                this.paddle.update(this.keys);
+                const alive = this.ball.update(this.paddle);
+
+                if (!alive) {
+                    this.lives--;
+                    if (this.lives <= 0) {
+                        this.state = 'gameover';
+                    } else {
+                        this.ball.reset();
+                    }
+                }
+
+                const points = checkBallBlockCollision(this.ball, this.blocks);
+                this.score += points;
+
+                if (this.blocks.length === 0) {
+                    this.state = 'win';
+                }
+            }
+
+            draw() {
+                // 배경
+                ctx.fillStyle = BLACK;
+                ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+                // 그리드
+                drawGridLines();
+
+                // 블록
+                for (const block of this.blocks) {
+                    block.draw();
+                }
+
+                // 패들과 공
+                this.paddle.draw();
+                this.ball.draw();
+
+                // 정보
+                drawText(`SCORE  ${this.score.toString().padStart(5, '0')}`, 20, 10, 10);
+                const livesText = '♥ '.repeat(this.lives);
+                drawText(`LIVES  ${livesText}`, 20, WIDTH - 180, 10);
+
+                // 상태 메시지
+                if (!this.ball.active && this.state === 'playing') {
+                    drawText('SPACE 키를 눌러 시작', 22, WIDTH / 2, HEIGHT / 2 + 80, YELLOW, true);
+                }
+
+                if (this.state === 'gameover') {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+                    drawText('GAME OVER', 60, WIDTH / 2, HEIGHT / 2 - 30, RED, true);
+                    drawText(`최종 점수: ${this.score}`, 28, WIDTH / 2, HEIGHT / 2 + 40, WHITE, true);
+                    drawText('SPACE — 다시 시작  /  ESC — 종료', 20, WIDTH / 2, HEIGHT / 2 + 90, GRAY, true);
+                }
+
+                if (this.state === 'win') {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+                    drawText('YOU WIN!', 60, WIDTH / 2, HEIGHT / 2 - 30, GREEN, true);
+                    drawText(`최종 점수: ${this.score}`, 28, WIDTH / 2, HEIGHT / 2 + 40, WHITE, true);
+                    drawText('SPACE — 다시 시작  /  ESC — 종료', 20, WIDTH / 2, HEIGHT / 2 + 90, GRAY, true);
+                }
+            }
+
+            updateUI() {
+                document.getElementById('score').textContent = this.score.toString().padStart(5, '0');
+                document.getElementById('lives').textContent = '♥ '.repeat(this.lives);
+                
+                let status = '';
+                if (this.state === 'playing' && !this.ball.active) {
+                    status = 'SPACE 키를 눌러 시작하세요';
+                } else if (this.state === 'gameover') {
+                    status = 'GAME OVER - SPACE로 다시 시작';
+                } else if (this.state === 'win') {
+                    status = 'YOU WIN! - SPACE로 다시 시작';
+                } else {
+                    status = '';
+                }
+                document.getElementById('status').textContent = status;
+            }
+        }
+
+        const game = new Game();
+
+        function gameLoop() {
+            game.update();
+            game.draw();
+            game.updateUI();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>

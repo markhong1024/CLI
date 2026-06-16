@@ -1,0 +1,23 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #04040a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#wrapper {
+    box-shadow:
+        0 0 30px rgba(180, 0, 240, 0.45),
+        0 0 80px rgba(0, 80, 200, 0.2);
+    border-radius: 3px;
+}
+
+#gameCanvas {
+    display: block;
+    background: #000;
+    image-rendering: pixelated;
+}
