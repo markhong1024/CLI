@@ -4,7 +4,7 @@ import { useCenters } from "./context/CentersContext";
 import { Building2, Users, BarChart2, AlertCircle } from "lucide-react";
 
 const REGIONS = ["수도강원", "충청전라", "경상"];
-const BIZ_TYPES = ["재직자", "P-TECH", "4년제", "전문대", "경력개발", "첨단산업", "구직자", "외국인"];
+const BIZ_TYPES = ["재직자", "P-TECH", "4년제", "전문대", "특화대학", "대학원", "경력개발", "첨단산업", "구직자", "외국인"];
 const SCORE_GRADES = ["S", "A", "B", "C", "D"];
 const SCORE_COLORS: Record<string, string> = {
   S: "bg-violet-100 text-violet-700",
@@ -27,7 +27,8 @@ export default function Dashboard() {
 
   const bizCounts = BIZ_TYPES.map((type) => {
     const key = type === "재직자" ? "jikja" : type === "P-TECH" ? "ptech" : type === "4년제" ? "yr4"
-      : type === "전문대" ? "college" : type === "경력개발" ? "career" : type === "첨단산업" ? "hitech"
+      : type === "전문대" ? "college" : type === "특화대학" ? "specialized" : type === "대학원" ? "graduate"
+      : type === "경력개발" ? "career" : type === "첨단산업" ? "hitech"
       : type === "구직자" ? "jobseeker" : "foreign";
     return { name: type, count: centers.filter((c) => c[key as keyof typeof c]).length };
   }).filter((b) => b.count > 0);
