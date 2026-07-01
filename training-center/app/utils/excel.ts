@@ -18,6 +18,8 @@ export function downloadCentersExcel(centers: Center[]) {
     "첨단산업": c.hitech ? "O" : "",
     "구직자": c.jobseeker ? "O" : "",
     "외국인": c.foreign ? "O" : "",
+    "특화대학": c.specialized ? "O" : "",
+    "대학원": c.graduate ? "O" : "",
     "20년 등급": c.s20,
     "21년 등급": c.s21,
     "22년 등급": c.s22,

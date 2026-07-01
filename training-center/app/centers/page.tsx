@@ -19,6 +19,8 @@ const BIZ_TYPE_LABELS: { key: keyof Center; label: string }[] = [
   { key: "ptech", label: "P-TECH" },
   { key: "yr4", label: "4년제" },
   { key: "college", label: "전문대" },
+  { key: "specialized", label: "특화대학" },
+  { key: "graduate", label: "대학원" },
   { key: "career", label: "경력개발" },
   { key: "hitech", label: "첨단산업" },
   { key: "jobseeker", label: "구직자" },
@@ -41,7 +43,7 @@ export default function CentersPage() {
   const [sortCol, setSortCol] = useState<"id" | "name" | "region" | "manager" | "s24" | "rate24">("id");
   const [sortAsc, setSortAsc] = useState(true);
 
-  const bizTypes = ["전체", "재직자", "P-TECH", "4년제", "전문대", "경력개발", "첨단산업", "구직자", "외국인"];
+  const bizTypes = ["전체", "재직자", "P-TECH", "4년제", "전문대", "특화대학", "대학원", "경력개발", "첨단산업", "구직자", "외국인"];
 
   const filtered = centers.filter((c) => {
     const matchSearch = c.name.includes(search) || c.manager.includes(search) || c.note.includes(search);
@@ -49,6 +51,7 @@ export default function CentersPage() {
     const matchBiz = bizFilter === "전체" || (
       bizFilter === "재직자" ? c.jikja : bizFilter === "P-TECH" ? c.ptech :
       bizFilter === "4년제" ? c.yr4 : bizFilter === "전문대" ? c.college :
+      bizFilter === "특화대학" ? c.specialized : bizFilter === "대학원" ? c.graduate :
       bizFilter === "경력개발" ? c.career : bizFilter === "첨단산업" ? c.hitech :
       bizFilter === "구직자" ? c.jobseeker : bizFilter === "외국인" ? c.foreign : true
     );
@@ -79,7 +82,7 @@ export default function CentersPage() {
   function saveEdit() {
     if (!editing) return;
     // typeCount 자동 계산
-    const typeCount = ["jikja", "ptech", "yr4", "college", "career", "hitech", "jobseeker", "foreign"]
+    const typeCount = ["jikja", "ptech", "yr4", "college", "specialized", "graduate", "career", "hitech", "jobseeker", "foreign"]
       .filter((k) => editing[k as keyof Center]).length;
     updateCenter(editing.id, { ...editing, typeCount });
     setEditing(null);
