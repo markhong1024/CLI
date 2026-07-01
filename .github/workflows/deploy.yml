@@ -30,10 +30,14 @@ jobs:
       - name: Build
         working-directory: training-center
         run: npm run build
+      - name: Prepare deploy directory
+        run: |
+          mkdir -p deploy/training-center
+          cp -r training-center/out/. deploy/training-center/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: training-center/out
+          path: deploy
 
   deploy:
     environment:
