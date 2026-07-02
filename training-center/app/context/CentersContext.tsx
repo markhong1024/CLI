@@ -12,51 +12,63 @@ interface CentersContextType {
 
 const CentersContext = createContext<CentersContextType | null>(null);
 
-const DB_URL = process.env.NEXT_PUBLIC_FIREBASE_DB_URL; // e.g. https://xxx-default-rtdb.firebaseio.com
-const ENDPOINT = DB_URL ? `${DB_URL}/centers.json` : null;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const STORAGE_KEY = "training-center-data";
 
-async function fetchFromFirebase(): Promise<Center[] | null> {
-  if (!ENDPOINT) return null;
+// Supabase REST API: app_data 테이블의 key='centers' 행에 전체 데이터를 JSON으로 저장
+function supabaseHeaders() {
+  return {
+    "Content-Type": "application/json",
+    "apikey": SUPABASE_ANON_KEY!,
+    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+    "Prefer": "resolution=merge-duplicates",
+  };
+}
+
+async function fetchFromSupabase(): Promise<Center[] | null> {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
   try {
-    const res = await fetch(ENDPOINT);
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/app_data?key=eq.centers&select=value`,
+      { headers: supabaseHeaders() }
+    );
     if (!res.ok) return null;
-    const data = await res.json();
-    return Array.isArray(data) ? data : null;
+    const rows = await res.json();
+    return rows?.[0]?.value ?? null;
   } catch {
     return null;
   }
 }
 
-async function saveToFirebase(centers: Center[]): Promise<void> {
-  if (!ENDPOINT) return;
+async function saveToSupabase(centers: Center[]): Promise<void> {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
   try {
-    await fetch(ENDPOINT, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(centers),
+    await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
+      method: "POST",
+      headers: supabaseHeaders(),
+      body: JSON.stringify({ key: "centers", value: centers }),
     });
   } catch {
-    // silent fail — localStorage acts as fallback
+    // localStorage가 백업 역할
   }
 }
 
 export function CentersProvider({ children }: { children: ReactNode }) {
   const [centers, setCenters] = useState<Center[]>(initialCenters);
-  const [syncing, setSyncing] = useState(!!ENDPOINT);
+  const [syncing, setSyncing] = useState(!!(SUPABASE_URL && SUPABASE_ANON_KEY));
 
-  // 초기 로드: Firebase 우선, 없으면 localStorage
+  // 초기 로드: Supabase 우선, 없으면 localStorage
   useEffect(() => {
     async function load() {
-      if (ENDPOINT) {
-        const remote = await fetchFromFirebase();
+      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+        const remote = await fetchFromSupabase();
         if (remote) {
           setCenters(remote);
           setSyncing(false);
           return;
         }
       }
-      // Firebase 미설정 or 실패 → localStorage
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) setCenters(JSON.parse(saved));
@@ -66,10 +78,9 @@ export function CentersProvider({ children }: { children: ReactNode }) {
     load();
   }, []);
 
-  // 변경사항 동기화
   const persist = useCallback((next: Center[]) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    saveToFirebase(next);
+    saveToSupabase(next);
   }, []);
 
   function updateCenter(id: string, updates: Partial<Center>) {
@@ -83,7 +94,7 @@ export function CentersProvider({ children }: { children: ReactNode }) {
   function resetAll() {
     setCenters(initialCenters);
     localStorage.removeItem(STORAGE_KEY);
-    saveToFirebase(initialCenters);
+    saveToSupabase(initialCenters);
   }
 
   return (

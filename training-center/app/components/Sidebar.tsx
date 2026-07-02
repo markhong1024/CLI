@@ -15,7 +15,7 @@ const navItems = [
 export default function Sidebar() {
   const pathname = usePathname();
   const { syncing } = useCenters();
-  const isCloud = !!process.env.NEXT_PUBLIC_FIREBASE_DB_URL;
+  const isCloud = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
 
   return (
     <aside className="w-60 bg-slate-900 text-white flex flex-col min-h-screen shrink-0">
