@@ -62,7 +62,7 @@ export default function ScoresPage() {
       s24: editing.s24, s25: editing.s25, s26: editing.s26, s27: editing.s27,
       s28: editing.s28, s29: editing.s29, s30: editing.s30, s31: editing.s31,
       s32: editing.s32, s33: editing.s33, s34: editing.s34, s35: editing.s35,
-      rate24: editing.rate24, manager: editing.manager,
+      manager: editing.manager,
     });
     setEditing(null);
   }
@@ -211,11 +211,6 @@ export default function ScoresPage() {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1">2024년 취업률 (%)</label>
-                <input value={editing.rate24} onChange={(e) => setEditing({ ...editing, rate24: e.target.value })}
-                  className="input w-40" placeholder="예: 85.3" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-500 mb-1">담당자</label>

@@ -34,7 +34,6 @@ export interface Center {
   s33: string;
   s34: string;
   s35: string;
-  rate24: string;
 }
 
 export const centers: Center[] = [
@@ -74,7 +73,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "77.7"
   },
   {
     "id": "2",
@@ -112,7 +110,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "91.7"
   },
   {
     "id": "4",
@@ -150,7 +147,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.6"
   },
   {
     "id": "5",
@@ -188,7 +184,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "76.2"
   },
   {
     "id": "9",
@@ -226,7 +221,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "78.2"
   },
   {
     "id": "10",
@@ -264,7 +258,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.7"
   },
   {
     "id": "13",
@@ -302,7 +295,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "97.8"
   },
   {
     "id": "16",
@@ -340,7 +332,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "80.4"
   },
   {
     "id": "17",
@@ -378,7 +369,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "76"
   },
   {
     "id": "18",
@@ -416,7 +406,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.4"
   },
   {
     "id": "19",
@@ -454,7 +443,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "75.8"
   },
   {
     "id": "20",
@@ -492,7 +480,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.2"
   },
   {
     "id": "21",
@@ -530,7 +517,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "78.6"
   },
   {
     "id": "23",
@@ -568,7 +554,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "84.5"
   },
   {
     "id": "25",
@@ -606,7 +591,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87"
   },
   {
     "id": "26",
@@ -644,7 +628,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "74.5"
   },
   {
     "id": "28",
@@ -682,7 +665,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "83.7"
   },
   {
     "id": "29",
@@ -720,7 +702,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "91.5"
   },
   {
     "id": "31",
@@ -758,7 +739,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.9"
   },
   {
     "id": "32",
@@ -796,7 +776,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "82.8"
   },
   {
     "id": "33",
@@ -834,7 +813,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "86.7"
   },
   {
     "id": "35",
@@ -872,7 +850,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87.5"
   },
   {
     "id": "39",
@@ -910,7 +887,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "77.1"
   },
   {
     "id": "40",
@@ -948,7 +924,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "83.5"
   },
   {
     "id": "41",
@@ -986,7 +961,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "70.6"
   },
   {
     "id": "43",
@@ -1024,7 +998,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "76.7"
   },
   {
     "id": "46",
@@ -1062,7 +1035,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "84.7"
   },
   {
     "id": "47",
@@ -1100,7 +1072,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87.1"
   },
   {
     "id": "48",
@@ -1138,7 +1109,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "81.6"
   },
   {
     "id": "50",
@@ -1176,7 +1146,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.5"
   },
   {
     "id": "52",
@@ -1214,7 +1183,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "81.5"
   },
   {
     "id": "54",
@@ -1252,7 +1220,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.7"
   },
   {
     "id": "56",
@@ -1290,7 +1257,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "86.1"
   },
   {
     "id": "57",
@@ -1328,7 +1294,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.5"
   },
   {
     "id": "58",
@@ -1366,7 +1331,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.5"
   },
   {
     "id": "59",
@@ -1404,7 +1368,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "79.1"
   },
   {
     "id": "61",
@@ -1442,7 +1405,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": ""
   },
   {
     "id": "62",
@@ -1480,7 +1442,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87"
   },
   {
     "id": "64",
@@ -1518,7 +1479,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "91.3"
   },
   {
     "id": "65",
@@ -1556,7 +1516,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "57.8"
   },
   {
     "id": "66",
@@ -1594,7 +1553,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87.1"
   },
   {
     "id": "69",
@@ -1632,7 +1590,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "81.9"
   },
   {
     "id": "70",
@@ -1670,7 +1627,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "74.7"
   },
   {
     "id": "71",
@@ -1708,7 +1664,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "88"
   },
   {
     "id": "72",
@@ -1746,7 +1701,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "91.4"
   },
   {
     "id": "76",
@@ -1784,7 +1738,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "81"
   },
   {
     "id": "77",
@@ -1822,7 +1775,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "76"
   },
   {
     "id": "78",
@@ -1860,7 +1812,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "82.4"
   },
   {
     "id": "79",
@@ -1898,7 +1849,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "75.6"
   },
   {
     "id": "80",
@@ -1936,7 +1886,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "71.6"
   },
   {
     "id": "81",
@@ -1974,7 +1923,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "77.9"
   },
   {
     "id": "82",
@@ -2012,7 +1960,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "83.4"
   },
   {
     "id": "83",
@@ -2050,7 +1997,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "84.3"
   },
   {
     "id": "84",
@@ -2088,7 +2034,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "89.3"
   },
   {
     "id": "85",
@@ -2126,7 +2071,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "85.9"
   },
   {
     "id": "86",
@@ -2164,7 +2108,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "77.3"
   },
   {
     "id": "87",
@@ -2202,7 +2145,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "80.7"
   },
   {
     "id": "88",
@@ -2240,7 +2182,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "83.7"
   },
   {
     "id": "89",
@@ -2278,7 +2219,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "65.9"
   },
   {
     "id": "90",
@@ -2316,7 +2256,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "86.2"
   },
   {
     "id": "91",
@@ -2354,7 +2293,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "69.5"
   },
   {
     "id": "92",
@@ -2392,7 +2330,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "84.6"
   },
   {
     "id": "93",
@@ -2430,7 +2367,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87.8"
   },
   {
     "id": "94",
@@ -2468,7 +2404,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "85.9"
   },
   {
     "id": "96",
@@ -2506,7 +2441,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "95"
   },
   {
     "id": "97",
@@ -2544,7 +2478,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "89.9"
   },
   {
     "id": "98",
@@ -2582,7 +2515,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.8"
   },
   {
     "id": "99",
@@ -2620,7 +2552,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "91.6"
   },
   {
     "id": "100",
@@ -2658,7 +2589,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "87.6"
   },
   {
     "id": "101",
@@ -2696,7 +2626,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "77.4"
   },
   {
     "id": "102",
@@ -2734,7 +2663,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "70.7"
   },
   {
     "id": "103",
@@ -2772,7 +2700,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "92.4"
   },
   {
     "id": "104",
@@ -2810,7 +2737,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "80.7"
   },
   {
     "id": "106",
@@ -2848,7 +2774,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "89.5"
   },
   {
     "id": "107",
@@ -2886,7 +2811,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "84.2"
   },
   {
     "id": "108",
@@ -2924,7 +2848,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "82.7"
   },
   {
     "id": "109",
@@ -2962,7 +2885,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "99.5"
   },
   {
     "id": "110",
@@ -3000,7 +2922,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "83.6"
   },
   {
     "id": "113",
@@ -3038,7 +2959,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "90.7"
   },
   {
     "id": "114",
@@ -3076,7 +2996,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": ""
   },
   {
     "id": "116",
@@ -3114,7 +3033,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "85.6"
   },
   {
     "id": "118",
@@ -3152,7 +3070,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "94.7"
   },
   {
     "id": "119",
@@ -3190,7 +3107,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "90.9"
   },
   {
     "id": "120",
@@ -3228,7 +3144,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "86.6"
   },
   {
     "id": "121",
@@ -3266,7 +3181,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "82.8"
   },
   {
     "id": "122",
@@ -3304,7 +3218,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "82.7"
   },
   {
     "id": "123",
@@ -3342,7 +3255,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "75.4"
   },
   {
     "id": "124",
@@ -3380,7 +3292,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "88.9"
   },
   {
     "id": "125",
@@ -3418,7 +3329,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "80.9"
   },
   {
     "id": "126",
@@ -3456,7 +3366,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "89.4"
   },
   {
     "id": "127",
@@ -3494,7 +3403,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "85.5"
   },
   {
     "id": "45",
@@ -3532,7 +3440,6 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "78.7"
   },
   {
     "id": "128",
@@ -3570,6 +3477,5 @@ export const centers: Center[] = [
     "s33": "",
     "s34": "",
     "s35": "",
-    "rate24": "67.4"
   }
 ];

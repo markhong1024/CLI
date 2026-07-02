@@ -25,7 +25,6 @@ export function downloadCentersExcel(centers: Center[]) {
     "22년 등급": c.s22,
     "23년 등급": c.s23,
     "24년 등급": c.s24,
-    "24년 취업률(%)": c.rate24,
     "특이사항": c.note,
     "비고": c.note2,
   }));
@@ -69,7 +68,6 @@ export function downloadScoresExcel(centers: Center[]) {
     "2033년": c.s33,
     "2034년": c.s34,
     "2035년": c.s35,
-    "24년 취업률(%)": c.rate24,
   }));
 
   const ws = XLSX.utils.json_to_sheet(rows);

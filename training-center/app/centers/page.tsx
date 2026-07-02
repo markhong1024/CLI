@@ -40,7 +40,7 @@ export default function CentersPage() {
   const [managerFilter, setManagerFilter] = useState("전체");
   const [selected, setSelected] = useState<Center | null>(null);
   const [editing, setEditing] = useState<Center | null>(null);
-  const [sortCol, setSortCol] = useState<"id" | "name" | "region" | "manager" | "s24" | "rate24">("id");
+  const [sortCol, setSortCol] = useState<"id" | "name" | "region" | "manager" | "s24">("id");
   const [sortAsc, setSortAsc] = useState(true);
 
   const bizTypes = ["전체", "재직자", "P-TECH", "4년제", "전문대", "특화대학", "대학원", "경력개발", "첨단산업", "구직자", "외국인"];
@@ -153,7 +153,6 @@ export default function CentersPage() {
               <th className="th">사업유형</th>
               <th className="th">기수</th>
               <Th onClick={() => handleSort("s24")} label={<>24년 등급<SortIcon col="s24" /></>} />
-              <Th onClick={() => handleSort("rate24")} label={<>취업률<SortIcon col="rate24" /></>} />
               <th className="th">특이사항</th>
               <th className="th">편집</th>
             </tr>
@@ -182,7 +181,6 @@ export default function CentersPage() {
                   {c.s24 ? <span className={`px-2 py-0.5 rounded text-xs font-bold ${SCORE_COLORS[c.s24] ?? "bg-slate-100 text-slate-500"}`}>{c.s24}</span>
                     : <span className="text-slate-300 text-xs">-</span>}
                 </td>
-                <td className="td text-slate-600 text-xs font-medium">{c.rate24 ? `${c.rate24}%` : "-"}</td>
                 <td className="td max-w-[180px]">
                   {c.note && <p className="text-xs text-amber-700 truncate">{c.note}</p>}
                 </td>
@@ -247,7 +245,6 @@ export default function CentersPage() {
                     </div>
                   ))}
                 </div>
-                {selected.rate24 && <p className="text-sm text-slate-600 mt-3">2024년도 취업률: <span className="font-semibold text-slate-800">{selected.rate24}%</span></p>}
               </div>
               {selected.note && (
                 <div>
@@ -315,9 +312,6 @@ export default function CentersPage() {
                     </Field>
                   ))}
                 </div>
-                <Field label="2024년 취업률 (%)">
-                  <input value={editing.rate24} onChange={(e) => editField("rate24", e.target.value)} className="input w-40" placeholder="예: 85.3" />
-                </Field>
               </Section>
 
               {/* 특이사항 */}
