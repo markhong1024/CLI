@@ -23,7 +23,7 @@ const SCORE_BAR: Record<string, string> = {
 
 export default function ScoresPage() {
   const { centers, updateCenter } = useCenters();
-  const recentYears = getRecentYears(centers, 2);
+  const recentYears = getRecentYears(centers, 3);
   const defaultYear = recentYears[recentYears.length - 1] ?? "2024";
   const [selectedYear, setSelectedYear] = useState<Year>(defaultYear);
   const [regionFilter, setRegionFilter] = useState("전체");

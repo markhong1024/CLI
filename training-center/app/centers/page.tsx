@@ -41,7 +41,7 @@ export default function CentersPage() {
   const [managerFilter, setManagerFilter] = useState("전체");
   const [selected, setSelected] = useState<Center | null>(null);
   const [editing, setEditing] = useState<Center | null>(null);
-  const recentYears = getRecentYears(centers, 2);
+  const recentYears = getRecentYears(centers, 3);
   const [sortCol, setSortCol] = useState<"id" | "name" | "region" | "manager" | "s24">("id");
   const [sortAsc, setSortAsc] = useState(true);
 

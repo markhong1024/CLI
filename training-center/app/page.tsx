@@ -38,7 +38,7 @@ export default function Dashboard() {
   }).filter((b) => b.count > 0);
 
   // 최근 2개 연도 성과등급 분포
-  const recentYears = getRecentYears(centers, 2);
+  const recentYears = getRecentYears(centers, 3);
   const scoreDists = recentYears.map((year) => {
     const key = YEAR_KEY[year];
     const dist = SCORE_GRADES.map((g) => ({ grade: g, count: centers.filter((c) => c[key] === g).length }));

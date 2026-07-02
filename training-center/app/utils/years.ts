@@ -10,12 +10,18 @@ export const YEAR_KEY: Record<Year, ScoreKey> = {
   "2031":"s31","2032":"s32","2033":"s33","2034":"s34","2035":"s35",
 };
 
-/** 데이터가 입력된 가장 최근 N개 연도를 반환 (오래된 순) */
-export function getRecentYears(centers: Center[], count = 2): Year[] {
-  const result: Year[] = [];
-  for (let i = YEARS.length - 1; i >= 0 && result.length < count; i--) {
-    const key = YEAR_KEY[YEARS[i]];
-    if (centers.some((c) => c[key])) result.unshift(YEARS[i]);
+/**
+ * 데이터가 있는 가장 최근 연도를 기준으로 count개 연도를 반환 (오래된 순).
+ * 마지막은 최근 데이터 연도 + 1년(다음 연도)까지 포함하여
+ * 아직 미입력된 연도도 공란으로 표시할 수 있도록 한다.
+ */
+export function getRecentYears(centers: Center[], count = 3): Year[] {
+  let latestIdx = -1;
+  for (let i = YEARS.length - 1; i >= 0; i--) {
+    if (centers.some((c) => c[YEAR_KEY[YEARS[i]]])) { latestIdx = i; break; }
   }
-  return result;
+  if (latestIdx === -1) return [];
+  const endIdx = Math.min(latestIdx + 1, YEARS.length - 1);
+  const startIdx = Math.max(endIdx - count + 1, 0);
+  return Array.from(YEARS.slice(startIdx, endIdx + 1)) as Year[];
 }
