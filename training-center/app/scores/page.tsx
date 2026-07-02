@@ -5,6 +5,7 @@ import { useCenters } from "../context/CentersContext";
 import { downloadScoresExcel } from "../utils/excel";
 import { Download, Pencil, X } from "lucide-react";
 import { Center } from "../data/mock";
+import { YEARS, YEAR_KEY, Year, getRecentYears } from "../utils/years";
 
 const GRADES = ["S", "A", "B", "C", "D"];
 const SPECIAL = ["신규", "미운영", "포기", "지정취소"];
@@ -20,18 +21,11 @@ const SCORE_BAR: Record<string, string> = {
   S: "bg-violet-500", A: "bg-blue-500", B: "bg-emerald-500", C: "bg-amber-500", D: "bg-red-500",
 };
 
-const YEARS = ["2020","2021","2022","2023","2024","2025","2026","2027","2028","2029","2030","2031","2032","2033","2034","2035"] as const;
-type Year = typeof YEARS[number];
-type ScoreKey = "s20"|"s21"|"s22"|"s23"|"s24"|"s25"|"s26"|"s27"|"s28"|"s29"|"s30"|"s31"|"s32"|"s33"|"s34"|"s35";
-const YEAR_KEY: Record<Year, ScoreKey> = {
-  "2020":"s20","2021":"s21","2022":"s22","2023":"s23","2024":"s24","2025":"s25",
-  "2026":"s26","2027":"s27","2028":"s28","2029":"s29","2030":"s30",
-  "2031":"s31","2032":"s32","2033":"s33","2034":"s34","2035":"s35",
-};
-
 export default function ScoresPage() {
   const { centers, updateCenter } = useCenters();
-  const [selectedYear, setSelectedYear] = useState<Year>("2024");
+  const recentYears = getRecentYears(centers, 2);
+  const defaultYear = recentYears[recentYears.length - 1] ?? "2024";
+  const [selectedYear, setSelectedYear] = useState<Year>(defaultYear);
   const [regionFilter, setRegionFilter] = useState("전체");
   const [gradeFilter, setGradeFilter] = useState("전체");
   const [editing, setEditing] = useState<Center | null>(null);

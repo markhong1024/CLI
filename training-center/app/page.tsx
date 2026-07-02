@@ -2,6 +2,7 @@
 
 import { useCenters } from "./context/CentersContext";
 import { Building2, Users, BarChart2, AlertCircle } from "lucide-react";
+import { getRecentYears, YEAR_KEY } from "./utils/years";
 
 const REGIONS = ["수도강원", "충청전라", "경상"];
 const BIZ_TYPES = ["재직자", "P-TECH", "4년제", "전문대", "특화대학", "대학원", "경력개발", "첨단산업", "구직자", "외국인"];
@@ -12,6 +13,9 @@ const SCORE_COLORS: Record<string, string> = {
   B: "bg-emerald-100 text-emerald-700",
   C: "bg-amber-100 text-amber-700",
   D: "bg-red-100 text-red-700",
+};
+const SCORE_BAR_COLORS: Record<string, string> = {
+  S: "bg-violet-500", A: "bg-blue-500", B: "bg-emerald-500", C: "bg-amber-500", D: "bg-red-500",
 };
 
 export default function Dashboard() {
@@ -33,15 +37,16 @@ export default function Dashboard() {
     return { name: type, count: centers.filter((c) => c[key as keyof typeof c]).length };
   }).filter((b) => b.count > 0);
 
-  // 2024년도 성과등급 분포
-  const score24Dist = SCORE_GRADES.map((g) => ({
-    grade: g,
-    count: centers.filter((c) => c.s24 === g).length,
-  }));
-  const totalScored24 = score24Dist.reduce((s, d) => s + d.count, 0);
+  // 최근 2개 연도 성과등급 분포
+  const recentYears = getRecentYears(centers, 2);
+  const scoreDists = recentYears.map((year) => {
+    const key = YEAR_KEY[year];
+    const dist = SCORE_GRADES.map((g) => ({ grade: g, count: centers.filter((c) => c[key] === g).length }));
+    const total = dist.reduce((s, d) => s + d.count, 0);
+    return { year, dist, total };
+  });
 
-  // 평균 취업률
-const recentNotes = centers.filter((c) => c.note).slice(0, 6);
+  const recentNotes = centers.filter((c) => c.note).slice(0, 6);
 
   return (
     <div className="p-8 min-h-screen">
@@ -98,26 +103,34 @@ const recentNotes = centers.filter((c) => c.note).slice(0, 6);
           </div>
         </div>
 
-        {/* 2024 성과등급 분포 */}
+        {/* 최근 2개 연도 성과등급 분포 */}
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           <h3 className="font-semibold text-slate-700 mb-4 flex items-center gap-2">
-            <BarChart2 size={16} className="text-emerald-500" /> 2024년도 성과평가 분포
+            <BarChart2 size={16} className="text-emerald-500" /> 연도별 성과평가 분포
           </h3>
-          <div className="space-y-2.5">
-            {score24Dist.map(({ grade, count }) => (
-              <div key={grade} className="flex items-center gap-3 text-sm">
-                <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold ${SCORE_COLORS[grade] ?? "bg-slate-100 text-slate-500"}`}>{grade}</span>
-                <div className="flex-1 bg-slate-100 rounded-full h-2">
-                  <div
-                    className={`h-2 rounded-full ${grade === "S" ? "bg-violet-500" : grade === "A" ? "bg-blue-500" : grade === "B" ? "bg-emerald-500" : grade === "C" ? "bg-amber-500" : "bg-red-500"}`}
-                    style={{ width: totalScored24 > 0 ? `${(count / totalScored24) * 100}%` : "0%" }}
-                  />
+          {scoreDists.length === 0 ? (
+            <p className="text-sm text-slate-400">등록된 성과평가 데이터가 없습니다.</p>
+          ) : (
+            <div className="space-y-5">
+              {scoreDists.map(({ year, dist, total: t }) => (
+                <div key={year}>
+                  <p className="text-xs font-semibold text-slate-500 mb-2">{year}년도 <span className="font-normal text-slate-400">(평가 {t}개)</span></p>
+                  <div className="space-y-1.5">
+                    {dist.map(({ grade, count }) => (
+                      <div key={grade} className="flex items-center gap-2 text-sm">
+                        <span className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold ${SCORE_COLORS[grade]}`}>{grade}</span>
+                        <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                          <div className={`h-1.5 rounded-full ${SCORE_BAR_COLORS[grade]}`}
+                            style={{ width: t > 0 ? `${(count / t) * 100}%` : "0%" }} />
+                        </div>
+                        <span className="text-slate-500 w-16 text-right text-xs">{count}개 ({t > 0 ? Math.round((count / t) * 100) : 0}%)</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <span className="text-slate-600 w-12 text-right">{count}개 ({totalScored24 > 0 ? Math.round((count / totalScored24) * 100) : 0}%)</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs text-slate-400 mt-3">* 평가 대상 {totalScored24}개 기관 기준</p>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

@@ -5,6 +5,7 @@ import { Center } from "../data/mock";
 import { useCenters } from "../context/CentersContext";
 import { downloadCentersExcel } from "../utils/excel";
 import { Search, X, ChevronDown, ChevronUp, Download, Pencil, RotateCcw } from "lucide-react";
+import { getRecentYears, YEAR_KEY } from "../utils/years";
 
 const SCORE_COLORS: Record<string, string> = {
   S: "bg-violet-100 text-violet-700",
@@ -40,6 +41,7 @@ export default function CentersPage() {
   const [managerFilter, setManagerFilter] = useState("전체");
   const [selected, setSelected] = useState<Center | null>(null);
   const [editing, setEditing] = useState<Center | null>(null);
+  const recentYears = getRecentYears(centers, 2);
   const [sortCol, setSortCol] = useState<"id" | "name" | "region" | "manager" | "s24">("id");
   const [sortAsc, setSortAsc] = useState(true);
 
@@ -152,7 +154,9 @@ export default function CentersPage() {
               <Th onClick={() => handleSort("manager")} label={<>담당자<SortIcon col="manager" /></>} />
               <th className="th">사업유형</th>
               <th className="th">기수</th>
-              <Th onClick={() => handleSort("s24")} label={<>24년 등급<SortIcon col="s24" /></>} />
+              {recentYears.map((y) => (
+                <Th key={y} onClick={() => handleSort("s24")} label={<>{y.slice(2)}년 등급<SortIcon col="s24" /></>} />
+              ))}
               <th className="th">특이사항</th>
               <th className="th">편집</th>
             </tr>
@@ -177,10 +181,15 @@ export default function CentersPage() {
                   </div>
                 </td>
                 <td className="td text-slate-500 text-xs">{c.generation}</td>
-                <td className="td">
-                  {c.s24 ? <span className={`px-2 py-0.5 rounded text-xs font-bold ${SCORE_COLORS[c.s24] ?? "bg-slate-100 text-slate-500"}`}>{c.s24}</span>
-                    : <span className="text-slate-300 text-xs">-</span>}
-                </td>
+                {recentYears.map((y) => {
+                  const grade = c[YEAR_KEY[y]];
+                  return (
+                    <td key={y} className="td">
+                      {grade ? <span className={`px-2 py-0.5 rounded text-xs font-bold ${SCORE_COLORS[grade] ?? "bg-slate-100 text-slate-500"}`}>{grade}</span>
+                        : <span className="text-slate-300 text-xs">-</span>}
+                    </td>
+                  );
+                })}
                 <td className="td max-w-[180px]">
                   {c.note && <p className="text-xs text-amber-700 truncate">{c.note}</p>}
                 </td>
@@ -236,14 +245,17 @@ export default function CentersPage() {
               <div>
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">성과평가 이력</p>
                 <div className="flex gap-3">
-                  {[["2020", selected.s20], ["2021", selected.s21], ["2022", selected.s22], ["2023", selected.s23], ["2024", selected.s24]].map(([year, grade]) => (
-                    <div key={year} className="flex-1 text-center">
-                      <p className="text-xs text-slate-400 mb-1">{year}</p>
-                      <span className={`inline-flex w-9 h-9 rounded-xl items-center justify-center text-sm font-bold ${
-                        grade ? (SCORE_COLORS[grade] ?? "bg-slate-100 text-slate-500") : "bg-slate-50 text-slate-300"
-                      }`}>{grade || "-"}</span>
-                    </div>
-                  ))}
+                  {recentYears.map((year) => {
+                    const grade = selected[YEAR_KEY[year]];
+                    return (
+                      <div key={year} className="flex-1 text-center">
+                        <p className="text-xs text-slate-400 mb-1">{year}</p>
+                        <span className={`inline-flex w-9 h-9 rounded-xl items-center justify-center text-sm font-bold ${
+                          grade ? (SCORE_COLORS[grade] ?? "bg-slate-100 text-slate-500") : "bg-slate-50 text-slate-300"
+                        }`}>{grade || "-"}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
               {selected.note && (
