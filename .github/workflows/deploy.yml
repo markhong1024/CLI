@@ -29,6 +29,8 @@ jobs:
         run: npm ci
       - name: Build
         working-directory: training-center
+        env:
+          NEXT_PUBLIC_FIREBASE_DB_URL: ${{ secrets.FIREBASE_DB_URL }}
         run: npm run build
       - name: Prepare deploy directory
         run: |
