@@ -1,3 +1,5 @@
+export const DATA_VERSION = "2026-07-03";
+
 export interface Center {
   id: string;
   region: string;

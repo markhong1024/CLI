@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
-import { centers as initialCenters, Center } from "../data/mock";
+import { centers as initialCenters, Center, DATA_VERSION } from "../data/mock";
 
 interface CentersContextType {
   centers: Center[];
@@ -18,6 +18,7 @@ interface CentersContextType {
 const CentersContext = createContext<CentersContextType | null>(null);
 
 const DATA_KEY = "training-center-data";
+const VERSION_KEY = "training-center-version";
 const CFG_URL_KEY = "tc-supabase-url";
 const CFG_KEY_KEY = "tc-supabase-key";
 
@@ -45,7 +46,11 @@ async function fetchRemote(url: string, key: string): Promise<Center[] | null> {
     });
     if (!res.ok) return null;
     const rows = await res.json();
-    return rows?.[0]?.value ?? null;
+    const payload = rows?.[0]?.value;
+    if (!payload) return null;
+    // 버전 체크: Supabase 데이터가 현재 버전과 다르면 무시
+    if (payload.version !== DATA_VERSION) return null;
+    return payload.data ?? null;
   } catch {
     return null;
   }
@@ -61,7 +66,7 @@ async function saveRemote(url: string, key: string, centers: Center[]): Promise<
     const res = await fetch(`${url}/rest/v1/app_data`, {
       method: "POST",
       headers: { ...baseHeaders(key), "Prefer": "return=minimal" },
-      body: JSON.stringify({ key: "centers", value: centers }),
+      body: JSON.stringify({ key: "centers", value: { version: DATA_VERSION, data: centers } }),
     });
     return res.ok;
   } catch {
@@ -71,9 +76,16 @@ async function saveRemote(url: string, key: string, centers: Center[]): Promise<
 
 function loadLocal(): Center[] | null {
   try {
+    const version = localStorage.getItem(VERSION_KEY);
+    if (version !== DATA_VERSION) return null; // 버전 다르면 무시
     const saved = localStorage.getItem(DATA_KEY);
     return saved ? JSON.parse(saved) : null;
   } catch { return null; }
+}
+
+function saveLocal(data: Center[]) {
+  localStorage.setItem(DATA_KEY, JSON.stringify(data));
+  localStorage.setItem(VERSION_KEY, DATA_VERSION);
 }
 
 export function CentersProvider({ children }: { children: ReactNode }) {
@@ -96,7 +108,7 @@ export function CentersProvider({ children }: { children: ReactNode }) {
         const remote = await fetchRemote(url, key);
         if (remote) {
           setCenters(remote);
-          localStorage.setItem(DATA_KEY, JSON.stringify(remote));
+          saveLocal(remote);
           setCloudStatus("connected");
           setSyncing(false);
           return;
@@ -118,7 +130,7 @@ export function CentersProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const persist = useCallback((next: Center[]) => {
-    localStorage.setItem(DATA_KEY, JSON.stringify(next));
+    saveLocal(next);
     const { url, key } = getConfig();
     saveRemote(url, key, next);
   }, []);
@@ -134,6 +146,7 @@ export function CentersProvider({ children }: { children: ReactNode }) {
   function resetAll() {
     setCenters(initialCenters);
     localStorage.removeItem(DATA_KEY);
+    localStorage.removeItem(VERSION_KEY);
     const { url, key } = getConfig();
     saveRemote(url, key, initialCenters);
   }
