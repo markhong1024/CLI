@@ -22,7 +22,7 @@ const SCORE_BAR: Record<string, string> = {
 };
 
 export default function ScoresPage() {
-  const { centers, updateCenter } = useCenters();
+  const { centers, updateCenter, syncing } = useCenters();
   const recentYears = getRecentYears(centers, 3);
   const defaultYear = recentYears[recentYears.length - 1] ?? "2024";
   const [selectedYear, setSelectedYear] = useState<Year>(defaultYear);
@@ -69,8 +69,9 @@ export default function ScoresPage() {
           <p className="text-slate-500 text-sm mt-1">연도별 성과평가 등급 분포 및 기관별 현황</p>
         </div>
         <button onClick={() => downloadScoresExcel(filtered)}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700">
-          <Download size={15} /> 엑셀 다운로드
+          disabled={syncing}
+          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          <Download size={15} /> {syncing ? "로딩 중..." : "엑셀 다운로드"}
         </button>
       </div>
 

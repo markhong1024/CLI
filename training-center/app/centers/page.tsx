@@ -34,7 +34,7 @@ const allManagers = (centers: Center[]) =>
   ["전체", ...Array.from(new Set(centers.map((c) => c.manager))).sort((a, b) => a.localeCompare(b, "ko"))];
 
 export default function CentersPage() {
-  const { centers, updateCenter, resetAll } = useCenters();
+  const { centers, updateCenter, resetAll, syncing } = useCenters();
   const [search, setSearch] = useState("");
   const [regionFilter, setRegionFilter] = useState("전체");
   const [bizFilter, setBizFilter] = useState("전체");
@@ -112,9 +112,10 @@ export default function CentersPage() {
           </button>
           <button
             onClick={() => downloadCentersExcel(filtered)}
-            className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700"
+            disabled={syncing}
+            className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Download size={15} /> 엑셀 다운로드
+            <Download size={15} /> {syncing ? "로딩 중..." : "엑셀 다운로드"}
           </button>
         </div>
       </div>

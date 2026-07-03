@@ -10,7 +10,7 @@ const allManagers = (centers: Center[]) =>
   ["전체", ...Array.from(new Set(centers.map((c) => c.manager))).sort((a, b) => a.localeCompare(b, "ko"))];
 
 export default function NoticesPage() {
-  const { centers, updateCenter } = useCenters();
+  const { centers, updateCenter, syncing } = useCenters();
   const [search, setSearch] = useState("");
   const [regionFilter, setRegionFilter] = useState("전체");
   const [managerFilter, setManagerFilter] = useState("전체");
@@ -38,8 +38,9 @@ export default function NoticesPage() {
           <p className="text-slate-500 text-sm mt-1">특이사항 기관 {withNotes.length}개 · {filtered.length}개 표시 중</p>
         </div>
         <button onClick={() => downloadNoticesExcel(filtered)}
-          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700">
-          <Download size={15} /> 엑셀 다운로드
+          disabled={syncing}
+          className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          <Download size={15} /> {syncing ? "로딩 중..." : "엑셀 다운로드"}
         </button>
       </div>
 
