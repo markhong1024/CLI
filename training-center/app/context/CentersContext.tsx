@@ -8,6 +8,9 @@ interface CentersContextType {
   updateCenter: (id: string, updates: Partial<Center>) => void;
   resetAll: () => void;
   syncing: boolean;
+  cloudEnabled: boolean;
+  cloudStatus: "connected" | "local" | "loading" | "error";
+  manualSync: () => Promise<void>;
 }
 
 const CentersContext = createContext<CentersContextType | null>(null);
@@ -16,7 +19,6 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const STORAGE_KEY = "training-center-data";
 
-// Supabase REST API: app_data 테이블의 key='centers' 행에 전체 데이터를 JSON으로 저장
 function supabaseHeaders() {
   return {
     "Content-Type": "application/json",
@@ -41,42 +43,65 @@ async function fetchFromSupabase(): Promise<Center[] | null> {
   }
 }
 
-async function saveToSupabase(centers: Center[]): Promise<void> {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+async function saveToSupabase(centers: Center[]): Promise<boolean> {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return false;
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
       method: "POST",
       headers: supabaseHeaders(),
       body: JSON.stringify({ key: "centers", value: centers }),
     });
+    return res.ok;
   } catch {
-    // localStorage가 백업 역할
+    return false;
   }
+}
+
+function loadLocal(): Center[] | null {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : null;
+  } catch { return null; }
 }
 
 export function CentersProvider({ children }: { children: ReactNode }) {
   const [centers, setCenters] = useState<Center[]>(initialCenters);
-  const [syncing, setSyncing] = useState(!!(SUPABASE_URL && SUPABASE_ANON_KEY));
+  const [syncing, setSyncing] = useState(true);
+  const [cloudStatus, setCloudStatus] = useState<"connected" | "local" | "loading" | "error">("loading");
+  const cloudEnabled = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
-  // 초기 로드: Supabase 우선, 없으면 localStorage
   useEffect(() => {
     async function load() {
-      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      setSyncing(true);
+      setCloudStatus("loading");
+
+      if (cloudEnabled) {
         const remote = await fetchFromSupabase();
         if (remote) {
+          // Supabase에 데이터 있음 → 사용
           setCenters(remote);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(remote));
+          setCloudStatus("connected");
           setSyncing(false);
           return;
         }
+
+        // Supabase 비어있음 → 로컬 데이터가 있으면 업로드
+        const local = loadLocal();
+        const data = local ?? initialCenters;
+        setCenters(data);
+        const ok = await saveToSupabase(data);
+        setCloudStatus(ok ? "connected" : "error");
+      } else {
+        // Supabase 미설정 → 로컬만 사용
+        const local = loadLocal();
+        if (local) setCenters(local);
+        setCloudStatus("local");
       }
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) setCenters(JSON.parse(saved));
-      } catch { /* ignore */ }
       setSyncing(false);
     }
     load();
-  }, []);
+  }, [cloudEnabled]);
 
   const persist = useCallback((next: Center[]) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
@@ -97,8 +122,19 @@ export function CentersProvider({ children }: { children: ReactNode }) {
     saveToSupabase(initialCenters);
   }
 
+  // 수동 동기화: 현재 로컬 데이터를 Supabase에 강제 업로드
+  const manualSync = useCallback(async () => {
+    setSyncing(true);
+    setCloudStatus("loading");
+    const local = loadLocal();
+    const data = local ?? centers;
+    const ok = await saveToSupabase(data);
+    setCloudStatus(ok ? "connected" : "error");
+    setSyncing(false);
+  }, [centers]);
+
   return (
-    <CentersContext.Provider value={{ centers, updateCenter, resetAll, syncing }}>
+    <CentersContext.Provider value={{ centers, updateCenter, resetAll, syncing, cloudEnabled, cloudStatus, manualSync }}>
       {children}
     </CentersContext.Provider>
   );
