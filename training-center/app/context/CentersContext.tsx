@@ -8,32 +8,41 @@ interface CentersContextType {
   updateCenter: (id: string, updates: Partial<Center>) => void;
   resetAll: () => void;
   syncing: boolean;
-  cloudEnabled: boolean;
   cloudStatus: "connected" | "local" | "loading" | "error";
   manualSync: () => Promise<void>;
+  saveSettings: (url: string, key: string) => void;
+  supabaseUrl: string;
+  supabaseKey: string;
 }
 
 const CentersContext = createContext<CentersContextType | null>(null);
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const STORAGE_KEY = "training-center-data";
+const DATA_KEY = "training-center-data";
+const CFG_URL_KEY = "tc-supabase-url";
+const CFG_KEY_KEY = "tc-supabase-key";
 
-function baseHeaders() {
+function getConfig() {
+  if (typeof window === "undefined") return { url: "", key: "" };
   return {
-    "Content-Type": "application/json",
-    "apikey": SUPABASE_ANON_KEY!,
-    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+    url: localStorage.getItem(CFG_URL_KEY) ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+    key: localStorage.getItem(CFG_KEY_KEY) ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
   };
 }
 
-async function fetchFromSupabase(): Promise<Center[] | null> {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
+function baseHeaders(key: string) {
+  return {
+    "Content-Type": "application/json",
+    "apikey": key,
+    "Authorization": `Bearer ${key}`,
+  };
+}
+
+async function fetchRemote(url: string, key: string): Promise<Center[] | null> {
+  if (!url || !key) return null;
   try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/app_data?key=eq.centers&select=value`,
-      { headers: baseHeaders() }
-    );
+    const res = await fetch(`${url}/rest/v1/app_data?key=eq.centers&select=value`, {
+      headers: baseHeaders(key),
+    });
     if (!res.ok) return null;
     const rows = await res.json();
     return rows?.[0]?.value ?? null;
@@ -42,18 +51,16 @@ async function fetchFromSupabase(): Promise<Center[] | null> {
   }
 }
 
-async function saveToSupabase(centers: Center[]): Promise<boolean> {
-  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return false;
+async function saveRemote(url: string, key: string, centers: Center[]): Promise<boolean> {
+  if (!url || !key) return false;
   try {
-    // 1단계: 기존 행 삭제
-    await fetch(`${SUPABASE_URL}/rest/v1/app_data?key=eq.centers`, {
+    await fetch(`${url}/rest/v1/app_data?key=eq.centers`, {
       method: "DELETE",
-      headers: baseHeaders(),
+      headers: baseHeaders(key),
     });
-    // 2단계: 새 데이터 삽입
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
+    const res = await fetch(`${url}/rest/v1/app_data`, {
       method: "POST",
-      headers: { ...baseHeaders(), "Prefer": "return=minimal" },
+      headers: { ...baseHeaders(key), "Prefer": "return=minimal" },
       body: JSON.stringify({ key: "centers", value: centers }),
     });
     return res.ok;
@@ -64,7 +71,7 @@ async function saveToSupabase(centers: Center[]): Promise<boolean> {
 
 function loadLocal(): Center[] | null {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(DATA_KEY);
     return saved ? JSON.parse(saved) : null;
   } catch { return null; }
 }
@@ -73,32 +80,34 @@ export function CentersProvider({ children }: { children: ReactNode }) {
   const [centers, setCenters] = useState<Center[]>(initialCenters);
   const [syncing, setSyncing] = useState(true);
   const [cloudStatus, setCloudStatus] = useState<"connected" | "local" | "loading" | "error">("loading");
-  const cloudEnabled = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+  const [supabaseUrl, setSupabaseUrl] = useState("");
+  const [supabaseKey, setSupabaseKey] = useState("");
 
   useEffect(() => {
+    const { url, key } = getConfig();
+    setSupabaseUrl(url);
+    setSupabaseKey(key);
+
     async function load() {
       setSyncing(true);
       setCloudStatus("loading");
 
-      if (cloudEnabled) {
-        const remote = await fetchFromSupabase();
+      if (url && key) {
+        const remote = await fetchRemote(url, key);
         if (remote) {
-          // Supabase에 데이터 있음 → 사용
           setCenters(remote);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(remote));
+          localStorage.setItem(DATA_KEY, JSON.stringify(remote));
           setCloudStatus("connected");
           setSyncing(false);
           return;
         }
-
-        // Supabase 비어있음 → 로컬 데이터가 있으면 업로드
+        // Supabase 비어있음 → 로컬 데이터 업로드 시도
         const local = loadLocal();
         const data = local ?? initialCenters;
         setCenters(data);
-        const ok = await saveToSupabase(data);
+        const ok = await saveRemote(url, key, data);
         setCloudStatus(ok ? "connected" : "error");
       } else {
-        // Supabase 미설정 → 로컬만 사용
         const local = loadLocal();
         if (local) setCenters(local);
         setCloudStatus("local");
@@ -106,11 +115,12 @@ export function CentersProvider({ children }: { children: ReactNode }) {
       setSyncing(false);
     }
     load();
-  }, [cloudEnabled]);
+  }, []);
 
   const persist = useCallback((next: Center[]) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    saveToSupabase(next);
+    localStorage.setItem(DATA_KEY, JSON.stringify(next));
+    const { url, key } = getConfig();
+    saveRemote(url, key, next);
   }, []);
 
   function updateCenter(id: string, updates: Partial<Center>) {
@@ -123,23 +133,45 @@ export function CentersProvider({ children }: { children: ReactNode }) {
 
   function resetAll() {
     setCenters(initialCenters);
-    localStorage.removeItem(STORAGE_KEY);
-    saveToSupabase(initialCenters);
+    localStorage.removeItem(DATA_KEY);
+    const { url, key } = getConfig();
+    saveRemote(url, key, initialCenters);
   }
 
-  // 수동 동기화: 현재 로컬 데이터를 Supabase에 강제 업로드
   const manualSync = useCallback(async () => {
+    const { url, key } = getConfig();
+    if (!url || !key) { setCloudStatus("local"); return; }
     setSyncing(true);
     setCloudStatus("loading");
     const local = loadLocal();
     const data = local ?? centers;
-    const ok = await saveToSupabase(data);
+    const ok = await saveRemote(url, key, data);
     setCloudStatus(ok ? "connected" : "error");
     setSyncing(false);
   }, [centers]);
 
+  function saveSettings(url: string, key: string) {
+    localStorage.setItem(CFG_URL_KEY, url.trim());
+    localStorage.setItem(CFG_KEY_KEY, key.trim());
+    setSupabaseUrl(url.trim());
+    setSupabaseKey(key.trim());
+    // 즉시 연결 시도
+    setSyncing(true);
+    setCloudStatus("loading");
+    const local = loadLocal();
+    const data = local ?? centers;
+    saveRemote(url.trim(), key.trim(), data).then((ok) => {
+      setCloudStatus(ok ? "connected" : "error");
+      setSyncing(false);
+    });
+  }
+
   return (
-    <CentersContext.Provider value={{ centers, updateCenter, resetAll, syncing, cloudEnabled, cloudStatus, manualSync }}>
+    <CentersContext.Provider value={{
+      centers, updateCenter, resetAll,
+      syncing, cloudStatus, manualSync,
+      saveSettings, supabaseUrl, supabaseKey,
+    }}>
       {children}
     </CentersContext.Provider>
   );
