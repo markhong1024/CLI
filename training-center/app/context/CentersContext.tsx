@@ -19,12 +19,11 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const STORAGE_KEY = "training-center-data";
 
-function supabaseHeaders() {
+function baseHeaders() {
   return {
     "Content-Type": "application/json",
     "apikey": SUPABASE_ANON_KEY!,
     "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-    "Prefer": "resolution=merge-duplicates",
   };
 }
 
@@ -33,7 +32,7 @@ async function fetchFromSupabase(): Promise<Center[] | null> {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/app_data?key=eq.centers&select=value`,
-      { headers: supabaseHeaders() }
+      { headers: baseHeaders() }
     );
     if (!res.ok) return null;
     const rows = await res.json();
@@ -46,9 +45,15 @@ async function fetchFromSupabase(): Promise<Center[] | null> {
 async function saveToSupabase(centers: Center[]): Promise<boolean> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return false;
   try {
+    // 1단계: 기존 행 삭제
+    await fetch(`${SUPABASE_URL}/rest/v1/app_data?key=eq.centers`, {
+      method: "DELETE",
+      headers: baseHeaders(),
+    });
+    // 2단계: 새 데이터 삽입
     const res = await fetch(`${SUPABASE_URL}/rest/v1/app_data`, {
       method: "POST",
-      headers: supabaseHeaders(),
+      headers: { ...baseHeaders(), "Prefer": "return=minimal" },
       body: JSON.stringify({ key: "centers", value: centers }),
     });
     return res.ok;
