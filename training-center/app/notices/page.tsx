@@ -5,12 +5,15 @@ import { useCenters } from "../context/CentersContext";
 import { downloadNoticesExcel } from "../utils/excel";
 import { Search, AlertCircle, X, Download, Pencil } from "lucide-react";
 import { Center } from "../data/mock";
+import { YEAR_KEY, getRecentYears } from "../utils/years";
 
 const allManagers = (centers: Center[]) =>
   ["전체", ...Array.from(new Set(centers.map((c) => c.manager))).sort((a, b) => a.localeCompare(b, "ko"))];
 
 export default function NoticesPage() {
   const { centers, updateCenter, syncing } = useCenters();
+  const recentYear = getRecentYears(centers, 1)[0];
+  const recentKey = recentYear ? YEAR_KEY[recentYear] : "s25";
   const [search, setSearch] = useState("");
   const [regionFilter, setRegionFilter] = useState("전체");
   const [managerFilter, setManagerFilter] = useState("전체");
@@ -79,11 +82,11 @@ export default function NoticesPage() {
                     c.region === "충청전라" ? "bg-emerald-50 text-emerald-700" : "bg-orange-50 text-orange-700"
                   }`}>{c.region}</span>
                   <span className="text-xs text-slate-400">연번 {c.id} · 담당: {c.manager}</span>
-                  {c.s24 && (
+                  {c[recentKey] && (
                     <span className={`px-2 py-0.5 rounded text-xs font-bold ${
-                      c.s24 === "S" ? "bg-violet-100 text-violet-700" : c.s24 === "A" ? "bg-blue-100 text-blue-700" :
-                      c.s24 === "B" ? "bg-emerald-100 text-emerald-700" : c.s24 === "C" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
-                    }`}>24년 {c.s24}</span>
+                      c[recentKey] === "S" ? "bg-violet-100 text-violet-700" : c[recentKey] === "A" ? "bg-blue-100 text-blue-700" :
+                      c[recentKey] === "B" ? "bg-emerald-100 text-emerald-700" : c[recentKey] === "C" ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
+                    }`}>{recentYear}년 {c[recentKey]}</span>
                   )}
                 </div>
                 {c.note && (
