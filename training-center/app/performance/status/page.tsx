@@ -17,7 +17,7 @@ export default function PerformanceStatusPage() {
   const [bizFilter, setBizFilter] = useState("전체");
   const [statusFilter, setStatusFilter] = useState<"전체" | PerfStatus>("전체");
   const [sortCol, setSortCol] = useState<SortCol>("rate");
-  const [sortAsc, setSortAsc] = useState(true);
+  const [sortAsc, setSortAsc] = useState(false);
   const [editing, setEditing] = useState<PerformanceRecord | null>(null);
 
   function saveEdit() {
