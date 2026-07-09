@@ -10,6 +10,10 @@ import {
 } from "lucide-react";
 import { useCenters } from "../context/CentersContext";
 import { usePerformance } from "../context/PerformanceContext";
+import { DATA_VERSION } from "../data/mock";
+import { PERF_DATA_VERSION } from "../data/performance";
+
+const LAST_UPDATED = [DATA_VERSION, PERF_DATA_VERSION].sort().at(-1)!.replaceAll("-", ". ") + ". 현재";
 
 const navItems = [
   { href: "/", label: "대시보드", icon: LayoutDashboard },
@@ -81,7 +85,7 @@ export default function Sidebar() {
         </nav>
         <div className="px-6 py-4 border-b border-slate-700 text-xs text-slate-400">
           <p className="font-medium text-slate-300 mb-1">기준일</p>
-          <p>2026. 06. 08. 현재</p>
+          <p>{LAST_UPDATED}</p>
         </div>
         <div className="px-6 py-4 space-y-2">
           <div className={`flex items-center gap-1.5 text-xs ${statusConfig.color}`}>
