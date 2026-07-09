@@ -4,19 +4,27 @@ import { useState } from "react";
 import { usePerformance } from "../../context/PerformanceContext";
 import { downloadPerformanceExcel } from "../../utils/excel";
 import { BIZ_TYPES, getRate, getStatus, STATUS_COLORS, STATUS_BAR, PerfStatus } from "../../utils/performance";
-import { Search, X, ChevronDown, ChevronUp, Download } from "lucide-react";
+import { PerformanceRecord } from "../../data/performance";
+import { Search, X, ChevronDown, ChevronUp, Download, Pencil } from "lucide-react";
 
 const STATUSES: ("전체" | PerfStatus)[] = ["전체", "초과", "미달", "미보고", "해당없음"];
 
 type SortCol = "centerName" | "bizType" | "target" | "actual" | "rate";
 
 export default function PerformanceStatusPage() {
-  const { records, syncing } = usePerformance();
+  const { records, updateRecord, syncing } = usePerformance();
   const [search, setSearch] = useState("");
   const [bizFilter, setBizFilter] = useState("전체");
   const [statusFilter, setStatusFilter] = useState<"전체" | PerfStatus>("전체");
   const [sortCol, setSortCol] = useState<SortCol>("rate");
   const [sortAsc, setSortAsc] = useState(true);
+  const [editing, setEditing] = useState<PerformanceRecord | null>(null);
+
+  function saveEdit() {
+    if (!editing) return;
+    updateRecord(editing.id, { target: editing.target, actual: editing.actual, note: editing.note });
+    setEditing(null);
+  }
 
   const filtered = records
     .filter((r) => {
@@ -121,6 +129,7 @@ export default function PerformanceStatusPage() {
               <th className="th text-right cursor-pointer" onClick={() => handleSort("rate")}>달성율<SortIcon col="rate" /></th>
               <th className="th">상태</th>
               <th className="th">비고</th>
+              <th className="th">편집</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -146,6 +155,12 @@ export default function PerformanceStatusPage() {
                     <span className={`px-2 py-0.5 rounded text-xs font-bold ${STATUS_COLORS[status]}`}>{status}</span>
                   </td>
                   <td className="td text-slate-400 text-xs max-w-[220px] truncate">{r.note}</td>
+                  <td className="td">
+                    <button onClick={() => setEditing({ ...r })}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                      <Pencil size={13} />
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -153,11 +168,52 @@ export default function PerformanceStatusPage() {
         </table>
       </div>
 
+      {/* 편집 모달 */}
+      {editing && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setEditing(null)}>
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-slate-800">{editing.centerName}</h3>
+                <p className="text-xs text-slate-400">{editing.bizType} · 목표/실적 수정</p>
+              </div>
+              <button onClick={() => setEditing(null)} className="text-slate-400 hover:text-slate-600"><X size={20} /></button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-1">학습근로자 목표</label>
+                  <input type="number" min={0} value={editing.target}
+                    onChange={(e) => setEditing({ ...editing, target: Number(e.target.value) })}
+                    className="input" />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-1">학습근로자 실적</label>
+                  <input type="number" min={0} value={editing.actual ?? ""} placeholder="미보고(-)"
+                    onChange={(e) => setEditing({ ...editing, actual: e.target.value === "" ? null : Number(e.target.value) })}
+                    className="input" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 mb-1">비고</label>
+                <input value={editing.note} onChange={(e) => setEditing({ ...editing, note: e.target.value })} className="input" />
+              </div>
+            </div>
+            <div className="p-5 border-t border-slate-100 flex gap-3">
+              <button onClick={() => setEditing(null)} className="flex-1 py-2 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50">취소</button>
+              <button onClick={saveEdit} className="flex-1 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">저장</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
         .select { padding: 0.5rem 0.625rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none; }
         .select:focus { box-shadow: 0 0 0 2px #3b82f6; }
         .th { text-align: left; padding: 0.625rem 1rem; font-size: 0.75rem; font-weight: 600; color: #64748b; user-select: none; }
         .td { padding: 0.625rem 1rem; white-space: nowrap; }
+        .input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none; }
+        .input:focus { box-shadow: 0 0 0 2px #3b82f6; }
       `}</style>
     </div>
   );
