@@ -5,20 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, BarChart2, AlertCircle,
+  Target, ListChecks,
   ChevronRight, Cloud, HardDrive, CloudOff, RefreshCw, Settings, X,
 } from "lucide-react";
 import { useCenters } from "../context/CentersContext";
+import { usePerformance } from "../context/PerformanceContext";
 
 const navItems = [
   { href: "/", label: "대시보드", icon: LayoutDashboard },
   { href: "/centers", label: "기관 현황", icon: Building2 },
   { href: "/scores", label: "성과평가 현황", icon: BarChart2 },
   { href: "/notices", label: "특이사항 관리", icon: AlertCircle },
+  { href: "/performance", label: "실적 총괄현황", icon: Target },
+  { href: "/performance/status", label: "목표대비 초과/미달", icon: ListChecks },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { syncing, cloudStatus, manualSync, saveSettings, supabaseUrl, supabaseKey } = useCenters();
+  const { manualSync: manualSyncPerformance } = usePerformance();
   const [showSettings, setShowSettings] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [inputKey, setInputKey] = useState("");
@@ -29,8 +34,14 @@ export default function Sidebar() {
     setShowSettings(true);
   }
 
+  function syncAll() {
+    manualSync();
+    manualSyncPerformance();
+  }
+
   function applySettings() {
     saveSettings(inputUrl, inputKey);
+    manualSyncPerformance();
     setShowSettings(false);
   }
 
@@ -79,7 +90,7 @@ export default function Sidebar() {
           </div>
           {(cloudStatus === "error" || cloudStatus === "local") && (
             <button
-              onClick={manualSync}
+              onClick={syncAll}
               disabled={syncing}
               className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors disabled:opacity-40"
             >

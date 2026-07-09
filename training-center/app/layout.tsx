@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import { CentersProvider } from "./context/CentersContext";
+import { PerformanceProvider } from "./context/PerformanceContext";
 
 export const metadata: Metadata = {
   title: "공동훈련센터 현황관리 시스템",
@@ -13,8 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <body className="flex bg-slate-50 min-h-screen">
         <CentersProvider>
-          <Sidebar />
-          <main className="flex-1 overflow-auto">{children}</main>
+          <PerformanceProvider>
+            <Sidebar />
+            <main className="flex-1 overflow-auto">{children}</main>
+          </PerformanceProvider>
         </CentersProvider>
       </body>
     </html>

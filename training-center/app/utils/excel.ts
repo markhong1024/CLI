@@ -1,5 +1,6 @@
 import * as XLSX from "xlsx";
 import { Center } from "../data/mock";
+import { PerformanceRecord } from "../data/performance";
 
 export function downloadCentersExcel(centers: Center[]) {
   const rows = centers.map((c) => ({
@@ -117,6 +118,31 @@ export function downloadNoticesExcel(centers: Center[]) {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "특이사항");
   XLSX.writeFile(wb, `공동훈련센터_특이사항_${today()}.xlsx`);
+}
+
+export function downloadPerformanceExcel(records: PerformanceRecord[]) {
+  const rows = records.map((r) => {
+    const rate = r.target > 0 && r.actual !== null ? r.actual / r.target : null;
+    return {
+      "연번": r.id,
+      "공동훈련센터명": r.centerName,
+      "사업유형": r.bizType,
+      "학습근로자 목표": r.target,
+      "학습근로자 실적": r.actual ?? "-",
+      "달성율": rate !== null ? `${Math.round(rate * 1000) / 10}%` : "-",
+      "상태": r.actual === null ? "미보고" : r.target === 0 ? "해당없음" : rate! >= 1 ? "초과" : "미달",
+      "비고": r.note,
+    };
+  });
+
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws["!cols"] = [
+    { wch: 6 }, { wch: 28 }, { wch: 14 }, { wch: 12 }, { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 30 },
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "실적현황");
+  XLSX.writeFile(wb, `공동훈련센터_목표대비실적_${today()}.xlsx`);
 }
 
 function today() {
