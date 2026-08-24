@@ -7,6 +7,7 @@ export interface ConsultingEvent {
   centerId: string;
   centerName: string;
   date: string; // YYYY-MM-DD
+  type: "정기" | "수시";
   purpose: string;
   status: "예정" | "확정" | "완료";
   note: string;

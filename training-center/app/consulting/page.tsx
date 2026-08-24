@@ -17,6 +17,7 @@ type FormState = {
   centerId: string;
   centerName: string;
   date: string;
+  type: "정기" | "수시";
   purpose: string;
   status: "예정" | "확정" | "완료";
   note: string;
@@ -26,6 +27,7 @@ const EMPTY_FORM: FormState = {
   centerId: "",
   centerName: "",
   date: "",
+  type: "정기",
   purpose: "",
   status: "예정",
   note: "",
@@ -72,7 +74,7 @@ export default function ConsultingPage() {
     setShowModal(true);
   }
   function openEdit(ev: ConsultingEvent) {
-    setForm({ centerId: ev.centerId, centerName: ev.centerName, date: ev.date, purpose: ev.purpose, status: ev.status, note: ev.note });
+    setForm({ centerId: ev.centerId, centerName: ev.centerName, date: ev.date, type: ev.type ?? "정기", purpose: ev.purpose, status: ev.status, note: ev.note });
     setEditing(ev);
     setShowModal(true);
   }
@@ -188,7 +190,7 @@ export default function ConsultingPage() {
                   {dayEvs.slice(0, 3).map((ev) => (
                     <div key={ev.id}
                       className={`px-1.5 py-0.5 rounded text-xs truncate border ${STATUS_CONFIG[ev.status].chip}`}>
-                      {ev.centerName}
+                      <span className="opacity-60 mr-1">[{ev.type ?? "정기"}]</span>{ev.centerName}
                     </div>
                   ))}
                   {dayEvs.length > 3 && (
@@ -230,9 +232,14 @@ export default function ConsultingPage() {
               {selectedEvents.map((ev) => (
                 <div key={ev.id} className={`flex items-start gap-3 p-4 rounded-lg border border-l-4 border-slate-100 ${STATUS_CONFIG[ev.status].bar}`}>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span className="font-semibold text-sm text-slate-800">{ev.centerName}</span>
                       <span className={`px-2 py-0.5 rounded text-xs font-medium border ${STATUS_CONFIG[ev.status].chip}`}>{ev.status}</span>
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium border ${
+                        (ev.type ?? "정기") === "정기"
+                          ? "bg-violet-50 text-violet-600 border-violet-200"
+                          : "bg-orange-50 text-orange-600 border-orange-200"
+                      }`}>{ev.type ?? "정기"}</span>
                     </div>
                     <p className="text-sm text-slate-700 mb-1 whitespace-pre-wrap">{ev.purpose}</p>
                     {ev.note && <p className="text-xs text-slate-400">{ev.note}</p>}
@@ -287,18 +294,37 @@ export default function ConsultingPage() {
                 </div>
               </div>
 
-              {/* 진행 상태 */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-2">진행 상태 <span className="text-red-400">*</span></label>
-                <div className="flex gap-2">
-                  {(["예정", "확정", "완료"] as const).map((s) => (
-                    <button key={s} onClick={() => setForm((f) => ({ ...f, status: s }))}
-                      className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                        form.status === s ? STATUS_CONFIG[s].chip + " font-bold" : "border-slate-200 text-slate-500 hover:border-slate-300"
-                      }`}>
-                      {s}
-                    </button>
-                  ))}
+              {/* 컨설팅 구분 + 진행 상태 */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-2">컨설팅 구분 <span className="text-red-400">*</span></label>
+                  <div className="flex gap-2">
+                    {(["정기", "수시"] as const).map((t) => (
+                      <button key={t} onClick={() => setForm((f) => ({ ...f, type: t }))}
+                        className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                          form.type === t
+                            ? t === "정기"
+                              ? "bg-violet-50 text-violet-700 border-violet-300 font-bold"
+                              : "bg-orange-50 text-orange-700 border-orange-300 font-bold"
+                            : "border-slate-200 text-slate-500 hover:border-slate-300"
+                        }`}>
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 mb-2">진행 상태 <span className="text-red-400">*</span></label>
+                  <div className="flex gap-2">
+                    {(["예정", "확정", "완료"] as const).map((s) => (
+                      <button key={s} onClick={() => setForm((f) => ({ ...f, status: s }))}
+                        className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                          form.status === s ? STATUS_CONFIG[s].chip + " font-bold" : "border-slate-200 text-slate-500 hover:border-slate-300"
+                        }`}>
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
