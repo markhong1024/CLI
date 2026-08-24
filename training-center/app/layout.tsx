@@ -3,6 +3,7 @@ import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import { CentersProvider } from "./context/CentersContext";
 import { PerformanceProvider } from "./context/PerformanceContext";
+import { ScheduleProvider } from "./context/ScheduleContext";
 
 export const metadata: Metadata = {
   title: "공동훈련센터 현황관리 시스템",
@@ -15,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex bg-slate-50 min-h-screen">
         <CentersProvider>
           <PerformanceProvider>
-            <Sidebar />
-            <main className="flex-1 overflow-auto">{children}</main>
+            <ScheduleProvider>
+              <Sidebar />
+              <main className="flex-1 overflow-auto">{children}</main>
+            </ScheduleProvider>
           </PerformanceProvider>
         </CentersProvider>
       </body>

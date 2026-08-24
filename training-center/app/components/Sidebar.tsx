@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Building2, BarChart2, AlertCircle,
-  Target, ListChecks,
+  Target, ListChecks, CalendarDays,
   ChevronRight, Cloud, HardDrive, CloudOff, RefreshCw, Settings, X,
 } from "lucide-react";
 import { useCenters } from "../context/CentersContext";
@@ -22,6 +22,7 @@ const navItems = [
   { href: "/notices", label: "특이사항 관리", icon: AlertCircle },
   { href: "/performance", label: "실적 총괄현황", icon: Target },
   { href: "/performance/status", label: "목표대비 초과/미달", icon: ListChecks },
+  { href: "/consulting", label: "컨설팅 일정 관리", icon: CalendarDays },
 ];
 
 export default function Sidebar() {
