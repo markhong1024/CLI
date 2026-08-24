@@ -1,0 +1,1254 @@
+import { ConsultingEvent } from "../context/ScheduleContext";
+
+export const CONSULTING_INITIAL: ConsultingEvent[] = [
+  {
+    "id": "ev-init-1",
+    "centerId": "108",
+    "centerName": "한국폴리텍대학 영남융합기술캠퍼스",
+    "date": "2026-03-19",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-2",
+    "centerId": "104",
+    "centerName": "한국폴리텍대학 부산캠퍼스",
+    "date": "2026-03-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-3",
+    "centerId": "23",
+    "centerName": "공주대학교",
+    "date": "2026-03-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-4",
+    "centerId": "59",
+    "centerName": "목원대학교",
+    "date": "2026-03-25",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-5",
+    "centerId": "86",
+    "centerName": "인제대학교",
+    "date": "2026-03-25",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-6",
+    "centerId": "66",
+    "centerName": "부산과학기술대학교",
+    "date": "2026-03-25",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-7",
+    "centerId": "103",
+    "centerName": "한국폴리텍대학 바이오캠퍼스",
+    "date": "2026-03-25",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-8",
+    "centerId": "113",
+    "centerName": "한국폴리텍대학 익산캠퍼스",
+    "date": "2026-03-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-9",
+    "centerId": "102",
+    "centerName": "한국폴리텍대학 동부산캠퍼스",
+    "date": "2026-03-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-10",
+    "centerId": "77",
+    "centerName": "신경주대학교",
+    "date": "2026-03-31",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-11",
+    "centerId": "16",
+    "centerName": "경남대학교",
+    "date": "2026-03-31",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-12",
+    "centerId": "121",
+    "centerName": "한국폴리텍대학 포항캠퍼스",
+    "date": "2026-04-01",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-13",
+    "centerId": "119",
+    "centerName": "한국폴리텍대학 창원캠퍼스",
+    "date": "2026-04-01",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-14",
+    "centerId": "93",
+    "centerName": "포스코 인재창조원",
+    "date": "2026-04-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-15",
+    "centerId": "88",
+    "centerName": "인하대학교",
+    "date": "2026-04-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 현지개선완료"
+  },
+  {
+    "id": "ev-init-16",
+    "centerId": "79",
+    "centerName": "신성대학교",
+    "date": "2026-04-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-17",
+    "centerId": "120",
+    "centerName": "한국폴리텍대학 청주캠퍼스",
+    "date": "2026-04-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-18",
+    "centerId": "91",
+    "centerName": "창원문성대학교",
+    "date": "2026-04-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-19",
+    "centerId": "110",
+    "centerName": "한국폴리텍대학 울산캠퍼스",
+    "date": "2026-04-06",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-20",
+    "centerId": "5",
+    "centerName": "강남대학교",
+    "date": "2026-04-06",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-21",
+    "centerId": "10",
+    "centerName": "강원대학교",
+    "date": "2026-04-07",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-22",
+    "centerId": "85",
+    "centerName": "울산과학대학교",
+    "date": "2026-04-07",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-23",
+    "centerId": "4",
+    "centerName": "가톨릭관동대학교",
+    "date": "2026-04-08",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-24",
+    "centerId": "124",
+    "centerName": "한라대학교",
+    "date": "2026-04-09",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 현지개선완료"
+  },
+  {
+    "id": "ev-init-25",
+    "centerId": "101",
+    "centerName": "한국폴리텍대학 대전캠퍼스",
+    "date": "2026-04-13",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-26",
+    "centerId": "2",
+    "centerName": "(사)캠틱종합기술원",
+    "date": "2026-04-14",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-27",
+    "centerId": "87",
+    "centerName": "인천대학교",
+    "date": "2026-04-15",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-28",
+    "centerId": "26",
+    "centerName": "광주대학교",
+    "date": "2026-04-16",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-29",
+    "centerId": "21",
+    "centerName": "경인여자대학교",
+    "date": "2026-04-17",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-30",
+    "centerId": "39",
+    "centerName": "대한상공회의소 광주인력개발원",
+    "date": "2026-04-17",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-31",
+    "centerId": "90",
+    "centerName": "전주비전대학교",
+    "date": "2026-04-17",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-32",
+    "centerId": "28",
+    "centerName": "구미대학교",
+    "date": "2026-04-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-33",
+    "centerId": "80",
+    "centerName": "안산대학교",
+    "date": "2026-04-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-34",
+    "centerId": "81",
+    "centerName": "영남이공대학교",
+    "date": "2026-04-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-35",
+    "centerId": "9",
+    "centerName": "강동대학교",
+    "date": "2026-04-22",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-36",
+    "centerId": "98",
+    "centerName": "한국폴리텍대학 구미캠퍼스",
+    "date": "2026-04-22",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-37",
+    "centerId": "100",
+    "centerName": "한국폴리텍대학 대구캠퍼스",
+    "date": "2026-04-22",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-38",
+    "centerId": "31",
+    "centerName": "군장대학교",
+    "date": "2026-04-23",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-39",
+    "centerId": "72",
+    "centerName": "수성대학교",
+    "date": "2026-04-23",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-40",
+    "centerId": "45",
+    "centerName": "협성대학교",
+    "date": "2026-04-23",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-41",
+    "centerId": "107",
+    "centerName": "한국폴리텍대학 아산캠퍼스",
+    "date": "2026-04-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-42",
+    "centerId": "125",
+    "centerName": "한밭대학교",
+    "date": "2026-04-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-43",
+    "centerId": "1",
+    "centerName": "(사)충북바이오산학융합원",
+    "date": "2026-04-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-44",
+    "centerId": "106",
+    "centerName": "한국폴리텍대학 순천캠퍼스",
+    "date": "2026-04-24",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-45",
+    "centerId": "109",
+    "centerName": "한국폴리텍대학 영주캠퍼스",
+    "date": "2026-04-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-46",
+    "centerId": "43",
+    "centerName": "동강대학교",
+    "date": "2026-04-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-47",
+    "centerId": "35",
+    "centerName": "대구한의대학교",
+    "date": "2026-04-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-48",
+    "centerId": "58",
+    "centerName": "명지대학교",
+    "date": "2026-04-29",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-49",
+    "centerId": "97",
+    "centerName": "한국폴리텍대학 광주캠퍼스",
+    "date": "2026-04-29",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-50",
+    "centerId": "99",
+    "centerName": "한국폴리텍대학 남대구캠퍼스",
+    "date": "2026-04-29",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-51",
+    "centerId": "19",
+    "centerName": "경북전문대학교",
+    "date": "2026-04-29",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 현지개선완료"
+  },
+  {
+    "id": "ev-init-52",
+    "centerId": "83",
+    "centerName": "영진전문대학교",
+    "date": "2026-04-30",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-53",
+    "centerId": "127",
+    "centerName": "한신대학교",
+    "date": "2026-04-30",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-54",
+    "centerId": "70",
+    "centerName": "서원대학교",
+    "date": "2026-04-30",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-55",
+    "centerId": "64",
+    "centerName": "배재대학교",
+    "date": "2026-05-07",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-56",
+    "centerId": "71",
+    "centerName": "서정대학교",
+    "date": "2026-05-12",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-57",
+    "centerId": "29",
+    "centerName": "국립한국해양대학교",
+    "date": "2026-05-12",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-58",
+    "centerId": "18",
+    "centerName": "경북대학교",
+    "date": "2026-05-12",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-59",
+    "centerId": "32",
+    "centerName": "남서울대학교",
+    "date": "2026-05-12",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-60",
+    "centerId": "54",
+    "centerName": "동원대학교",
+    "date": "2026-05-13",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-61",
+    "centerId": "92",
+    "centerName": "충북보건과학대학교",
+    "date": "2026-05-13",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-62",
+    "centerId": "40",
+    "centerName": "대한상공회의소 부산인력개발원",
+    "date": "2026-05-13",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-63",
+    "centerId": "33",
+    "centerName": "대구대학교",
+    "date": "2026-05-13",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-64",
+    "centerId": "46",
+    "centerName": "동국대학교",
+    "date": "2026-05-15",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-65",
+    "centerId": "128",
+    "centerName": "홍익대학교",
+    "date": "2026-05-15",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-66",
+    "centerId": "123",
+    "centerName": "한남대학교",
+    "date": "2026-05-15",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-67",
+    "centerId": "78",
+    "centerName": "신라대학교",
+    "date": "2026-05-19",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-68",
+    "centerId": "25",
+    "centerName": "광운대학교",
+    "date": "2026-05-19",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-69",
+    "centerId": "84",
+    "centerName": "우송정보대학",
+    "date": "2026-05-19",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-70",
+    "centerId": "47",
+    "centerName": "동덕여자대학교",
+    "date": "2026-05-20",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-71",
+    "centerId": "56",
+    "centerName": "동의과학대학교",
+    "date": "2026-05-20",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-72",
+    "centerId": "65",
+    "centerName": "부산경상대학교",
+    "date": "2026-05-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-73",
+    "centerId": "126",
+    "centerName": "한성대학교",
+    "date": "2026-05-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-74",
+    "centerId": "61",
+    "centerName": "목포과학대학교",
+    "date": "2026-05-21",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-75",
+    "centerId": "62",
+    "centerName": "목포대학교",
+    "date": "2026-05-22",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-76",
+    "centerId": "76",
+    "centerName": "순천향대학교",
+    "date": "2026-05-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-77",
+    "centerId": "118",
+    "centerName": "한국폴리텍대학 진주캠퍼스",
+    "date": "2026-05-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-78",
+    "centerId": "20",
+    "centerName": "경성대학교",
+    "date": "2026-05-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-79",
+    "centerId": "17",
+    "centerName": "경남정보대학교",
+    "date": "2026-05-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-80",
+    "centerId": "50",
+    "centerName": "동신대학교",
+    "date": "2026-05-26",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-81",
+    "centerId": "57",
+    "centerName": "동의대학교",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-82",
+    "centerId": "52",
+    "centerName": "동원과학기술대학교",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-83",
+    "centerId": "13",
+    "centerName": "거제대학교",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-84",
+    "centerId": "41",
+    "centerName": "대한상공회의소 전북인력개발원",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-85",
+    "centerId": "48",
+    "centerName": "동서대학교",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-86",
+    "centerId": "116",
+    "centerName": "한국폴리텍대학 전북캠퍼스",
+    "date": "2026-05-27",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-87",
+    "centerId": "82",
+    "centerName": "영산대학교",
+    "date": "2026-05-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-88",
+    "centerId": "94",
+    "centerName": "한국교통대학교",
+    "date": "2026-05-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 양호운영"
+  },
+  {
+    "id": "ev-init-89",
+    "centerId": "122",
+    "centerName": "한국폴리텍대학 항공캠퍼스",
+    "date": "2026-05-28",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-90",
+    "centerId": "96",
+    "centerName": "한국기술교육대학교",
+    "date": "2026-06-02",
+    "type": "정기",
+    "purpose": "정기 컨설팅 실시",
+    "status": "완료",
+    "note": "컨설팅 결과: 개선사항 재확인필요"
+  },
+  {
+    "id": "ev-init-91",
+    "centerId": "5",
+    "centerName": "강남대학교",
+    "date": "2026-01-07",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-92",
+    "centerId": "62",
+    "centerName": "목포대학교",
+    "date": "2026-01-09",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-93",
+    "centerId": "89",
+    "centerName": "전남도립대학교",
+    "date": "2026-01-09",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-94",
+    "centerId": "71",
+    "centerName": "서정대학교",
+    "date": "2026-01-13",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-95",
+    "centerId": "86",
+    "centerName": "인제대학교",
+    "date": "2026-01-13",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-96",
+    "centerId": "102",
+    "centerName": "한국폴리텍대학 동부산캠퍼스",
+    "date": "2026-01-14",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-97",
+    "centerId": "122",
+    "centerName": "한국폴리텍대학 항공캠퍼스",
+    "date": "2026-01-14",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 미흡"
+  },
+  {
+    "id": "ev-init-98",
+    "centerId": "128",
+    "centerName": "홍익대학교",
+    "date": "2026-01-16",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-99",
+    "centerId": "66",
+    "centerName": "부산과학기술대학교",
+    "date": "2026-01-28",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 적정"
+  },
+  {
+    "id": "ev-init-100",
+    "centerId": "82",
+    "centerName": "영산대학교",
+    "date": "2026-01-28",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-101",
+    "centerId": "59",
+    "centerName": "목원대학교",
+    "date": "2026-01-28",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 미흡"
+  },
+  {
+    "id": "ev-init-102",
+    "centerId": "32",
+    "centerName": "남서울대학교",
+    "date": "2026-02-03",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-103",
+    "centerId": "19",
+    "centerName": "경북전문대학교",
+    "date": "2026-02-04",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-104",
+    "centerId": "59",
+    "centerName": "목원대학교",
+    "date": "2026-02-10",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 미흡"
+  },
+  {
+    "id": "ev-init-105",
+    "centerId": "5",
+    "centerName": "강남대학교",
+    "date": "2026-03-10",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-106",
+    "centerId": "31",
+    "centerName": "군장대학교",
+    "date": "2026-03-26",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-107",
+    "centerId": "20",
+    "centerName": "경성대학교",
+    "date": "2026-03-26",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-108",
+    "centerId": "39",
+    "centerName": "대한상공회의소 광주인력개발원",
+    "date": "2026-03-30",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-109",
+    "centerId": "32",
+    "centerName": "남서울대학교",
+    "date": "2026-04-08",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-110",
+    "centerId": "21",
+    "centerName": "경인여자대학교",
+    "date": "2026-04-09",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-111",
+    "centerId": "62",
+    "centerName": "목포대학교",
+    "date": "2026-04-10",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-112",
+    "centerId": "18",
+    "centerName": "경북대학교",
+    "date": "2026-04-17",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-113",
+    "centerId": "90",
+    "centerName": "전주비전대학교",
+    "date": "2026-05-28",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-114",
+    "centerId": "120",
+    "centerName": "한국폴리텍대학 청주캠퍼스",
+    "date": "2026-06-05",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 적정"
+  },
+  {
+    "id": "ev-init-115",
+    "centerId": "108",
+    "centerName": "한국폴리텍대학 영남융합기술캠퍼스",
+    "date": "2026-06-05",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-116",
+    "centerId": "87",
+    "centerName": "인천대학교",
+    "date": "2026-06-08",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-117",
+    "centerId": "71",
+    "centerName": "서정대학교",
+    "date": "2026-06-10",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 미흡"
+  },
+  {
+    "id": "ev-init-118",
+    "centerId": "71",
+    "centerName": "서정대학교",
+    "date": "2026-06-10",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-119",
+    "centerId": "5",
+    "centerName": "강남대학교",
+    "date": "2026-06-11",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-120",
+    "centerId": "71",
+    "centerName": "서정대학교",
+    "date": "2026-06-29",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-121",
+    "centerId": "86",
+    "centerName": "인제대학교",
+    "date": "2026-07-07",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-122",
+    "centerId": "102",
+    "centerName": "한국폴리텍대학 동부산캠퍼스",
+    "date": "2026-07-08",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-123",
+    "centerId": "70",
+    "centerName": "서원대학교",
+    "date": "2026-07-09",
+    "type": "수시",
+    "purpose": "사업역량강화",
+    "status": "완료",
+    "note": "신규사업참여(예비) 또는 전담자 역량강화 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-124",
+    "centerId": "92",
+    "centerName": "충북보건과학대학교",
+    "date": "2026-07-14",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 운영전반 및 이슈사항 컨설팅 | 결과: 우수"
+  },
+  {
+    "id": "ev-init-125",
+    "centerId": "101",
+    "centerName": "한국폴리텍대학 대전캠퍼스",
+    "date": "2026-07-24",
+    "type": "수시",
+    "purpose": "센터운영관리",
+    "status": "완료",
+    "note": "공동훈련센터 성과관리 컨설팅 | 결과: 우수"
+  }
+];

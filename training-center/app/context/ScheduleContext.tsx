@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { CONSULTING_INITIAL } from "../data/consulting-initial";
 
 export interface ConsultingEvent {
   id: string;
@@ -27,8 +28,8 @@ const STORAGE_KEY = "training-center-consulting";
 function loadLocal(): ConsultingEvent[] {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  } catch { return []; }
+    return saved ? JSON.parse(saved) : CONSULTING_INITIAL;
+  } catch { return CONSULTING_INITIAL; }
 }
 
 function saveLocal(events: ConsultingEvent[]) {
