@@ -44,6 +44,7 @@ export default function ConsultingPage() {
   const [editing, setEditing] = useState<ConsultingEvent | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [statPeriod, setStatPeriod] = useState<"전체" | "올해" | "이번달">("전체");
 
   // 달력 계산
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -57,6 +58,28 @@ export default function ConsultingPage() {
     monthEvents.forEach((e) => { (map[e.date] ??= []).push(e); });
     return map;
   }, [monthEvents]);
+
+  // 통계용 필터
+  const statEvents = useMemo(() => {
+    const yearStr = String(today.getFullYear());
+    if (statPeriod === "올해") return events.filter((e) => e.date.startsWith(yearStr));
+    if (statPeriod === "이번달") return events.filter((e) => e.date.startsWith(`${yearStr}-${String(today.getMonth() + 1).padStart(2, "0")}`));
+    return events;
+  }, [events, statPeriod]);
+
+  const statTotal = statEvents.length;
+  const statJeonggi = statEvents.filter((e) => (e.type ?? "정기") === "정기");
+  const statSusi = statEvents.filter((e) => (e.type ?? "정기") === "수시");
+
+  // 수시 목적별 그룹
+  const susiByPurpose = useMemo(() => {
+    const map: Record<string, ConsultingEvent[]> = {};
+    statSusi.forEach((e) => {
+      const key = e.purpose.trim() || "(목적 미입력)";
+      (map[key] ??= []).push(e);
+    });
+    return Object.entries(map).sort((a, b) => b[1].length - a[1].length);
+  }, [statSusi]);
 
   function prevMonth() {
     if (viewMonth === 0) { setViewYear((y) => y - 1); setViewMonth(11); }
@@ -114,6 +137,131 @@ export default function ConsultingPage() {
           className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
           <Plus size={15} /> 일정 추가
         </button>
+      </div>
+
+      {/* ── 통계 섹션 ── */}
+      <div className="mb-6">
+        {/* 기간 탭 */}
+        <div className="flex gap-1 mb-4 bg-slate-100 p-1 rounded-xl w-fit">
+          {(["전체", "올해", "이번달"] as const).map((p) => (
+            <button key={p} onClick={() => setStatPeriod(p)}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${statPeriod === p ? "bg-white text-blue-700 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+              {p}
+            </button>
+          ))}
+        </div>
+
+        {/* 총/정기/수시 카드 */}
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          {/* 총 횟수 */}
+          <div className="bg-white rounded-xl border border-slate-200 p-4">
+            <p className="text-xs font-semibold text-slate-500 mb-1">총 컨설팅</p>
+            <p className="text-3xl font-bold text-slate-800 mb-3">{statTotal}<span className="text-base font-normal text-slate-400 ml-1">건</span></p>
+            <div className="space-y-1">
+              {(["완료", "확정", "예정"] as const).map((s) => (
+                <div key={s} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${STATUS_CONFIG[s].dot}`} />
+                    <span className="text-slate-500">{s}</span>
+                  </div>
+                  <span className="font-semibold text-slate-700">{statEvents.filter((e) => e.status === s).length}건</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 정기 */}
+          <div className="bg-white rounded-xl border border-violet-200 p-4">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="w-2 h-2 rounded-full bg-violet-400" />
+              <p className="text-xs font-semibold text-violet-600">정기 컨설팅</p>
+            </div>
+            <p className="text-3xl font-bold text-violet-700 mb-3">{statJeonggi.length}<span className="text-base font-normal text-violet-300 ml-1">건</span></p>
+            <div className="space-y-1">
+              {(["완료", "확정", "예정"] as const).map((s) => (
+                <div key={s} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${STATUS_CONFIG[s].dot}`} />
+                    <span className="text-slate-500">{s}</span>
+                  </div>
+                  <span className="font-semibold text-slate-700">{statJeonggi.filter((e) => e.status === s).length}건</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 수시 */}
+          <div className="bg-white rounded-xl border border-orange-200 p-4">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="w-2 h-2 rounded-full bg-orange-400" />
+              <p className="text-xs font-semibold text-orange-600">수시 컨설팅</p>
+            </div>
+            <p className="text-3xl font-bold text-orange-600 mb-3">{statSusi.length}<span className="text-base font-normal text-orange-200 ml-1">건</span></p>
+            <div className="space-y-1">
+              {(["완료", "확정", "예정"] as const).map((s) => (
+                <div key={s} className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${STATUS_CONFIG[s].dot}`} />
+                    <span className="text-slate-500">{s}</span>
+                  </div>
+                  <span className="font-semibold text-slate-700">{statSusi.filter((e) => e.status === s).length}건</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 수시 목적별 현황 */}
+        {statSusi.length > 0 && (
+          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div className="px-5 py-3 border-b border-slate-100 bg-orange-50">
+              <h3 className="text-sm font-semibold text-orange-700">수시 컨설팅 목적별 현황</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 border-b border-slate-100">
+                  <tr>
+                    <th className="text-left px-5 py-2.5 text-xs font-semibold text-slate-500">컨설팅 목적</th>
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-400">완료</th>
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-400">확정</th>
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-400">예정</th>
+                    <th className="text-center px-4 py-2.5 text-xs font-semibold text-slate-600">합계</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  {susiByPurpose.map(([purpose, evs]) => (
+                    <tr key={purpose} className="hover:bg-slate-50">
+                      <td className="px-5 py-3 text-sm text-slate-700 max-w-[360px]">
+                        <p className="line-clamp-2">{purpose}</p>
+                      </td>
+                      <td className="text-center px-4 py-3">
+                        <span className="text-xs font-semibold text-slate-500">{evs.filter((e) => e.status === "완료").length}</span>
+                      </td>
+                      <td className="text-center px-4 py-3">
+                        <span className="text-xs font-semibold text-emerald-600">{evs.filter((e) => e.status === "확정").length}</span>
+                      </td>
+                      <td className="text-center px-4 py-3">
+                        <span className="text-xs font-semibold text-blue-600">{evs.filter((e) => e.status === "예정").length}</span>
+                      </td>
+                      <td className="text-center px-4 py-3">
+                        <span className="px-2 py-0.5 bg-orange-50 text-orange-700 text-xs font-bold rounded-full border border-orange-200">{evs.length}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot className="border-t border-slate-200 bg-slate-50">
+                  <tr>
+                    <td className="px-5 py-2.5 text-xs font-semibold text-slate-600">합계</td>
+                    <td className="text-center px-4 py-2.5 text-xs font-semibold text-slate-500">{statSusi.filter((e) => e.status === "완료").length}</td>
+                    <td className="text-center px-4 py-2.5 text-xs font-semibold text-emerald-600">{statSusi.filter((e) => e.status === "확정").length}</td>
+                    <td className="text-center px-4 py-2.5 text-xs font-semibold text-blue-600">{statSusi.filter((e) => e.status === "예정").length}</td>
+                    <td className="text-center px-4 py-2.5"><span className="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-bold rounded-full border border-orange-200">{statSusi.length}</span></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 상태 범례 */}
