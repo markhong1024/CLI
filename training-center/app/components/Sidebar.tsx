@@ -13,8 +13,9 @@ import { usePerformance } from "../context/PerformanceContext";
 import { DATA_VERSION } from "../data/mock";
 import { PERF_DATA_VERSION } from "../data/performance";
 import { CONSULTING_DATA_VERSION } from "../data/consulting-initial";
+import { getLastModified } from "../utils/lastModified";
 
-const LAST_UPDATED = [DATA_VERSION, PERF_DATA_VERSION, CONSULTING_DATA_VERSION].sort().at(-1)!.replaceAll("-", ". ") + ". 현재";
+const STATIC_VERSIONS = [DATA_VERSION, PERF_DATA_VERSION, CONSULTING_DATA_VERSION];
 
 const navItems = [
   { href: "/", label: "대시보드", icon: LayoutDashboard },
@@ -33,6 +34,19 @@ export default function Sidebar() {
   const [showSettings, setShowSettings] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [inputKey, setInputKey] = useState("");
+  const [lastUpdated, setLastUpdated] = useState(
+    STATIC_VERSIONS.sort().at(-1)!.replaceAll("-", ". ") + ". 현재"
+  );
+
+  useEffect(() => {
+    const refresh = () => {
+      const date = getLastModified(STATIC_VERSIONS);
+      setLastUpdated(date.replaceAll("-", ". ") + ". 현재");
+    };
+    refresh();
+    window.addEventListener("tc-data-updated", refresh);
+    return () => window.removeEventListener("tc-data-updated", refresh);
+  }, []);
 
   function openSettings() {
     setInputUrl(supabaseUrl);
@@ -87,7 +101,7 @@ export default function Sidebar() {
         </nav>
         <div className="px-6 py-4 border-b border-slate-700 text-xs text-slate-400">
           <p className="font-medium text-slate-300 mb-1">기준일</p>
-          <p>{LAST_UPDATED}</p>
+          <p>{lastUpdated}</p>
         </div>
         <div className="px-6 py-4 space-y-2">
           <div className={`flex items-center gap-1.5 text-xs ${statusConfig.color}`}>

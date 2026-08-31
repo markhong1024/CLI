@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { performanceRecords as initialRecords, PerformanceRecord, PERF_DATA_VERSION } from "../data/performance";
+import { touchLastModified } from "../utils/lastModified";
 
 interface PerformanceContextType {
   records: PerformanceRecord[];
@@ -81,6 +82,7 @@ function loadLocal(): PerformanceRecord[] | null {
 function saveLocal(data: PerformanceRecord[]) {
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
   localStorage.setItem(VERSION_KEY, PERF_DATA_VERSION);
+  touchLastModified();
 }
 
 export function PerformanceProvider({ children }: { children: ReactNode }) {

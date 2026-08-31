@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { centers as initialCenters, Center, DATA_VERSION } from "../data/mock";
+import { touchLastModified } from "../utils/lastModified";
 
 interface CentersContextType {
   centers: Center[];
@@ -86,6 +87,7 @@ function loadLocal(): Center[] | null {
 function saveLocal(data: Center[]) {
   localStorage.setItem(DATA_KEY, JSON.stringify(data));
   localStorage.setItem(VERSION_KEY, DATA_VERSION);
+  touchLastModified();
 }
 
 export function CentersProvider({ children }: { children: ReactNode }) {

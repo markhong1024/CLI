@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { CONSULTING_INITIAL } from "../data/consulting-initial";
+import { touchLastModified } from "../utils/lastModified";
 
 export interface ConsultingEvent {
   id: string;
@@ -34,6 +35,7 @@ function loadLocal(): ConsultingEvent[] {
 
 function saveLocal(events: ConsultingEvent[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+  touchLastModified();
 }
 
 export function ScheduleProvider({ children }: { children: ReactNode }) {

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Plus, X, Pencil, Trash2, Calendar, Target, Settings2 } from "lucide-react";
 import { useCenters } from "../context/CentersContext";
 import { useSchedule, ConsultingEvent } from "../context/ScheduleContext";
+import { touchLastModified } from "../utils/lastModified";
 
 const STATUS_CONFIG = {
   예정: { chip: "bg-blue-100 text-blue-700 border-blue-200", dot: "bg-blue-400", bar: "border-l-blue-400", bar2: "bg-blue-400" },
@@ -37,6 +38,7 @@ function loadGoals(year: number): Goals {
 }
 function saveGoals(year: number, g: Goals) {
   localStorage.setItem(goalsKey(year), JSON.stringify(g));
+  touchLastModified();
 }
 
 function pct(actual: number, goal: number) {
