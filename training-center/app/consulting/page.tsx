@@ -130,11 +130,15 @@ export default function ConsultingPage() {
     setEditing(ev); setShowModal(true);
   }
   function handleCenterChange(id: string) {
-    const c = centers.find((c) => c.id === id);
-    setForm((f) => ({ ...f, centerId: id, centerName: c?.name ?? "" }));
+    if (id === "__direct__") {
+      setForm((f) => ({ ...f, centerId: "__direct__", centerName: "" }));
+    } else {
+      const c = centers.find((c) => c.id === id);
+      setForm((f) => ({ ...f, centerId: id, centerName: c?.name ?? "" }));
+    }
   }
   function saveForm() {
-    if (!form.centerId || !form.date || !form.purpose.trim()) return;
+    if (!form.centerId || (form.centerId === "__direct__" && !form.centerName.trim()) || !form.date || !form.purpose.trim()) return;
     if (editing) updateEvent(editing.id, form); else addEvent(form);
     setShowModal(false); setSelectedDate(form.date);
   }
@@ -421,7 +425,17 @@ export default function ConsultingPage() {
                     {[...centers].sort((a, b) => a.name.localeCompare(b.name, "ko")).map((c) => (
                       <option key={c.id} value={c.id}>{c.name}</option>
                     ))}
+                    <option value="__direct__">직접 입력 (기타)</option>
                   </select>
+                  {form.centerId === "__direct__" && (
+                    <input
+                      type="text"
+                      value={form.centerName}
+                      onChange={(e) => setForm((f) => ({ ...f, centerName: e.target.value }))}
+                      placeholder="센터명 직접 입력"
+                      className="mt-2 w-full px-3 py-2 border border-blue-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 mb-1">일정 날짜 <span className="text-red-400">*</span></label>
