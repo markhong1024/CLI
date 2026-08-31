@@ -12,8 +12,9 @@ import { useCenters } from "../context/CentersContext";
 import { usePerformance } from "../context/PerformanceContext";
 import { DATA_VERSION } from "../data/mock";
 import { PERF_DATA_VERSION } from "../data/performance";
+import { CONSULTING_DATA_VERSION } from "../data/consulting-initial";
 
-const LAST_UPDATED = [DATA_VERSION, PERF_DATA_VERSION].sort().at(-1)!.replaceAll("-", ". ") + ". 현재";
+const LAST_UPDATED = [DATA_VERSION, PERF_DATA_VERSION, CONSULTING_DATA_VERSION].sort().at(-1)!.replaceAll("-", ". ") + ". 현재";
 
 const navItems = [
   { href: "/", label: "대시보드", icon: LayoutDashboard },

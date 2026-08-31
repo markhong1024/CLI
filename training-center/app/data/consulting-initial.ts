@@ -1,5 +1,7 @@
 import { ConsultingEvent } from "../context/ScheduleContext";
 
+export const CONSULTING_DATA_VERSION = "2026-08-24";
+
 export const CONSULTING_INITIAL: ConsultingEvent[] = [
   {
     "id": "ev-init-1",
