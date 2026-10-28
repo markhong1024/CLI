@@ -1,0 +1,24 @@
+name: Supabase Keepalive
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"  # 매주 월요일 오전 9시 (KST = UTC+9)
+  workflow_dispatch:       # 수동 실행도 가능
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase to prevent project pause
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/app_data?key=eq.centers&select=value&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          echo "Supabase response status: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 300 ]; then
+            echo "Supabase is active."
+          else
+            echo "Warning: Supabase returned $STATUS. Project may be paused."
+            exit 1
+          fi
