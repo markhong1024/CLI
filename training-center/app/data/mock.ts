@@ -6,6 +6,7 @@ export interface Center {
   name: string;
   manager: string;
   note: string;
+  noteUpdatedAt?: string;
   generation: string;
   typeCount: number;
   bizType: string;

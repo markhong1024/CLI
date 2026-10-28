@@ -29,7 +29,8 @@ export default function NoticesPage() {
 
   function saveEdit() {
     if (!editing) return;
-    updateCenter(editing.id, { note: editing.note, note2: editing.note2 });
+    const today = new Date().toISOString().split("T")[0];
+    updateCenter(editing.id, { note: editing.note, note2: editing.note2, noteUpdatedAt: today });
     setEditing(null);
   }
 

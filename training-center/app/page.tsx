@@ -46,7 +46,10 @@ export default function Dashboard() {
     return { year, dist, total };
   });
 
-  const recentNotes = centers.filter((c) => c.note).slice(0, 6);
+  const recentNotes = centers
+    .filter((c) => c.note)
+    .sort((a, b) => (b.noteUpdatedAt ?? "").localeCompare(a.noteUpdatedAt ?? ""))
+    .slice(0, 6);
 
   return (
     <div className="p-8 min-h-screen">
@@ -143,8 +146,13 @@ export default function Dashboard() {
           {recentNotes.map((c) => (
             <div key={c.id} className="flex gap-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
               <div className="shrink-0 w-6 h-6 rounded bg-amber-200 text-amber-800 text-xs font-bold flex items-center justify-center">{c.id}</div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-slate-800 truncate">{c.name}</p>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2 mb-0.5">
+                  <p className="text-sm font-medium text-slate-800 truncate">{c.name}</p>
+                  {c.noteUpdatedAt && (
+                    <span className="shrink-0 text-xs text-amber-500 font-medium">{c.noteUpdatedAt.replaceAll("-", ".")}</span>
+                  )}
+                </div>
                 <p className="text-xs text-slate-500 truncate">{c.note}</p>
               </div>
             </div>
